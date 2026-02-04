@@ -270,6 +270,7 @@ def main():
         df_daily = df_with_time.groupBy(
             "batiment_id", "type_energie", "unite", "date", "year", "month"
         ).agg(
+            F.min("timestamp_parsed").alias("timestamp_start"),
             F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
             F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
             F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
