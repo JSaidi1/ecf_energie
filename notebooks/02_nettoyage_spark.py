@@ -1,24 +1,42 @@
+"""
+- Script 02_nettoyage_spark.py
+- Ce script sera executé dans le node spark qui tourne sur docker
+- Pour l'executer :
+    > docker exec -it spark-master /opt/spark/bin/spark-submit --master spark://spark-master:7077 /notebooks/02_nettoyage_spark.py
+"""
 #====================================================================================================
 #                             Etape 1.2 - Pipeline de nettoyage Spark
 #                  Objectif: Traiter des donnees structurees avec un langage de programmation
 #====================================================================================================
 import os
 import sys
-from pathlib import Path
 from datetime import datetime
+import time
+import platform
+from utils.utils_logs import log_message, log_df
+from utils.utils_resources import get_machine_available_resources
+from tabulate import tabulate
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import DoubleType, TimestampType
-from utils.utils_logs import log_message
-import time
 
 #-------------------------------------------------------------------------------
 # Config. des Chemins des données
 #-------------------------------------------------------------------------------
-DATA_DIR = "/data"
-OUTPUT_DIR = os.path.join(DATA_DIR, "output", "consommations_clean")
-CONSOMMATION_PATH = os.path.join(DATA_DIR, "consommations_raw.csv")
-BATIMENTS_PATH = os.path.join(DATA_DIR, "batiments.csv")
+DATA_DIR_PATH = "/data"
+OUTPUT_DIR_PATH = "/output"
+
+# CONSOMMATION_FILE_DATA_PATH = os.path.join(DATA_DIR_PATH, "consommations_raw-light.csv")
+CONSOMMATION_FILE_DATA_PATH = os.path.join(DATA_DIR_PATH, "consommations_raw.csv")
+BATIMENTS_FILE_DATA_PATH = os.path.join(DATA_DIR_PATH, "batiments.csv")
+
+PARQUET_CONSO_CLEAN_PATH = os.path.join(OUTPUT_DIR_PATH, "02_consommations_clean")
+
+#-------------------------------------------------------------------------------
+# Other Configs. 
+#-------------------------------------------------------------------------------
+CURRENT_SCRIPT_NAME = os.path.basename(os.path.abspath(__file__))
+LOG_FILE_NAME = "02_logs_nettoyage.log"
 
 #-------------------------------------------------------------------------------
 # Functions
@@ -27,57 +45,76 @@ def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
 
 def show_startup_message():
-    print("=" * 100)
-    print(" " * 30 + "Etape 1.2 - Pipeline de nettoyage Spark")
-    print(" " * 20 + "Objectif: Traiter des donnees structurees avec un langage de programmation")
-    print("=" * 100)
+    """Show startup message"""
+    log_message(msg_log="=" * 95, file_log=True, file_log_name=LOG_FILE_NAME, file_log_clear=True)
+    log_message(msg_log=" " * 15 + f"Logs de traitement (nettoyage) - script: {CURRENT_SCRIPT_NAME}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log=" " * 25 + f"Etape 1.2 - Pipeline de nettoyage Spark", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log="=" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
+
+def show_current_available_resources():
+    """Show current machine available resources"""
+    log_message(msg_log="Ressources actuellement disponibles sur la machine :", file_log=True, file_log_name=LOG_FILE_NAME)
+
+    metrics = get_machine_available_resources()
+
+    ## Show available resources
+    log_message(msg_log=f"RAM actuellement disponible sur la machine (free) : {metrics['ram_available_gb']:.2f} GB", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log=f"CPU actuellement disponible sur la machine (free) : {metrics['cpu_available_pct']:.1f}%", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log=f"        Approx logical cores  (free) : {metrics['available_logical_cores']:.2f}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log=f"        Approx physical cores (free) : {metrics['available_physical_cores']:.2f}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
 
 def create_spark_session():
     """Cree et configure la session Spark."""
     spark = SparkSession.builder \
         .appName("ECF Energie - Nettoyage - partie 1.2") \
         .master("spark://spark-master:7077") \
+        .config("spark.driver.extraJavaOptions", "-Dlog4j.configurationFile=file:/opt/spark/conf/log4j2.properties") \
+        .config("spark.executor.extraJavaOptions", "-Dlog4j.configurationFile=file:/opt/spark/conf/log4j2.properties") \
         .getOrCreate()
 
     ## Reduire les logs
     spark.sparkContext.setLogLevel("ERROR")
 
-    ## Affichage de l'actuelle version de Spark & de l'url de Spark UI
-    print()
-    print(f"- Spark version: {spark.version}")
-    print(f"- Spark UI: {spark.sparkContext.uiWebUrl}")
+    ## Affichage versions
+    log_message(f"Spark version  : {spark.version}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(f"Spark UI       : {spark.sparkContext.uiWebUrl}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(f"Python version : {platform.python_version()}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(f"Python path    : { sys.executable}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(f"Java version   : {spark._jvm.java.lang.System.getProperty('java.version')}", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(f"Java home      : { spark._jvm.java.lang.System.getProperty('java.home')}", file_log=True, file_log_name=LOG_FILE_NAME)
 
-    ## Affichage du message du succès
-    print("[ok]: creation de la session Spark avec succes.")
+    log_message("[ok]: creation de la session Spark avec succès", file_log=True, file_log_name=LOG_FILE_NAME)
+    log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
 
     return spark
-
-def stop_spark_session(spark: SparkSession):
-    """Stop Spark session"""
-    spark.stop()
-    # Force kill the Py4J gateway (Windows-safe)
-    spark.sparkContext._gateway.shutdown()
-    print("─" * 100)
-    print("[info]: entire spark session is stopped successfully.")
-    print("─" * 100)
-    os._exit(0)
 
 def parse_multi_format_timestamp(timestamp_str):
     """
     UDF pour parser les timestamps multi-formats.
     Formats supportes:
     - %Y-%m-%d %H:%M:%S (ISO)
+    - %d/%m/%Y %H:%M:%S (FR avec secondes) 
     - %d/%m/%Y %H:%M (FR)
     - %m/%d/%Y %H:%M:%S (US)
+    - %m/%d/%Y %H:%M (US sans secondes) 
     - %Y-%m-%dT%H:%M:%S (ISO avec T)
     """
     if timestamp_str is None:
         return None
 
+    # strip espaces
+    try:
+        timestamp_str = timestamp_str.strip()
+    except Exception:
+        return None
+
     formats = [
         "%Y-%m-%d %H:%M:%S",
+        "%d/%m/%Y %H:%M:%S",  
         "%d/%m/%Y %H:%M",
         "%m/%d/%Y %H:%M:%S",
+        "%m/%d/%Y %H:%M",     
         "%Y-%m-%dT%H:%M:%S",
     ]
 
@@ -99,290 +136,372 @@ def clean_consommation(consommation_str):
         return None
 
     try:
-        # Remplacer virgule par point
         clean_str = consommation_str.replace(",", ".")
         return float(clean_str)
     except (ValueError, AttributeError):
         return None
 
 def close_spark_session(spark:SparkSession):
-    ## Release resources 
+    log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
     spark.stop()
-    # Force kill the Py4J gateway (Windows-safe)
     spark.sparkContext._gateway.shutdown()
-    print("─" * 100)
-    print("[info]: la session spark a ete arretee avec succes.")
-    print("─" * 100)
-    os._exit(0)
+    log_message(msg_log="[ok]: la session spark a ete arretee avec succes", file_log=True, file_log_name=LOG_FILE_NAME)
 
 #-------------------------------------------------------------------------------
 # Main
 #-------------------------------------------------------------------------------
 def main():
+    spark = None
+    df_journaliere = None
+
     try:
-        ## Clear console
+        # -----------------------------------------------------------------------------------
+        # Clear de la console
+        # -----------------------------------------------------------------------------------
         clear_console()
-
-        ## start (pour mesurer le temps d'execution de ce script)
-        start = time.time()
-
-        ## Show startup message
+       
+        # -----------------------------------------------------------------------------------
+        # Affichage du message de démarrage
+        # -----------------------------------------------------------------------------------
         show_startup_message()
+
+        # -----------------------------------------------------------------------------------
+        # Infos & mesures de la performance
+        # -----------------------------------------------------------------------------------
+        start_time = time.time()
+
+        metrics_start = get_machine_available_resources()
+        show_current_available_resources()
         
-        ## Creation d'une session Spark 
-        print("\nCreation d'une session Spark ...\n")
+        # -----------------------------------------------------------------------------------
+        # Creation d'une session Spark
+        # -----------------------------------------------------------------------------------
+        log_message("Creation d'une session Spark ...", file_log=True, file_log_name=LOG_FILE_NAME)
         spark = create_spark_session() 
         
-        ## Enregistrer les UDFs
+        # -----------------------------------------------------------------------------------
+        # Enregistrer les UDFs
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="Enregistrement des udf parse_timestamp_udf & clean_consommation_udf", file_log=True, file_log_name=LOG_FILE_NAME)
         parse_timestamp_udf = F.udf(parse_multi_format_timestamp, TimestampType())
         clean_consommation_udf = F.udf(clean_consommation, DoubleType())
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
+    
+        # -----------------------------------------------------------------------------------
+        # Chargement des donnees brutes
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="[1/5] Chargement des donnees brutes ...", file_log=True, file_log_name=LOG_FILE_NAME)
         
-        ## Charger les donnees brutes 
-        print("─" * 100)
-        print("[1/6] Chargement des donnees brutes ...\n")
-
-        df_consommations_raw = spark.read \
+        # --- consommations_raw.csv (df_consommation_raw)
+        log_message(msg_log="Creation de df_consommation_raw (à partir consommations_raw.csv)", file_log=True, file_log_name=LOG_FILE_NAME)
+        df_consommation_raw = spark.read \
             .option("header", "true") \
-            .csv(CONSOMMATION_PATH)
+            .option("inferSchema", "true") \
+            .csv(CONSOMMATION_FILE_DATA_PATH)
         
-        initial_count = df_consommations_raw.count()
-        print(f"    - Lignes en entree : {initial_count:,}")
-        print(f"    - Nombre de colonnes : {len(df_consommations_raw.columns)}")
-        print("    - Schema :")
-        df_consommations_raw.printSchema()
-        print("    - Appercu des données :")
-        df_consommations_raw.show(10, truncate=False)
+        # Description de df_consommation_raw :
+        initial_count = df_consommation_raw.count()
+        log_message(msg_log=f"    - Lignes en entree : {initial_count:,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"    - Nombre de colonnes : {len(df_consommation_raw.columns)}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="    - Schema :", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"\n{df_consommation_raw._jdf.schema().treeString()}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_df(msg_log="    - Appercu des données (df_consommation_raw):", df=df_consommation_raw, file_log=True, 
+               file_log_name=LOG_FILE_NAME)
         
-        ## Charger les batiments 
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # --- batiments.csv (df_batiments)
+        log_message(msg_log="Creation de df_batiments (à partir batiments.csv)", file_log=True, file_log_name=LOG_FILE_NAME)
         df_batiments = spark.read \
             .option("header", "true") \
             .option("inferSchema", "true") \
-            .csv(BATIMENTS_PATH)
+            .csv(BATIMENTS_FILE_DATA_PATH)
+
         
-        # ----------------------------------------------------------------
-        #               Nettoyage: Traitement des timestamps
-        # ----------------------------------------------------------------
-        # - Formats de dates multiples => parsing + suppression des timestamps nulles
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
 
-        print("─" * 100)
-        print("[2/6] Traitement des timestamps multi-formats (a partir de la colonne 'timestamp') ...\n")
+        # -----------------------------------------------------------------------------------
+        # Nettoyage
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="[2/5] Nettoyage ...", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # --- Nettoyage à partir de la colonne timestamps
+        log_message(msg_log="Nettoyage à partir de la colonne timestamps", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="Conversion timestamp(string) => nouvelle colonne timestamp_parsed (TimestampType) => parse_timestamp_udf", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        df_with_timestamp = df_consommations_raw.withColumn(
+        # Creation de la colonne timestamp_parsed dans df_with_timestamp en utilisant l'udf parse_timestamp_udf
+        df_with_timestamp = df_consommation_raw.withColumn(
             "timestamp_parsed",
             parse_timestamp_udf(F.col("timestamp"))
         )
+        
+        # Suppression des lignes où timestamp_parsed est NULL
+        log_message(msg_log="Suppression des lignes où timestamp_parsed est NULL", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Filtrer les timestamps nulles (apres le parsing)
         invalid_timestamps = df_with_timestamp.filter(F.col("timestamp_parsed").isNull()).count()
         df_with_timestamp = df_with_timestamp.filter(F.col("timestamp_parsed").isNotNull())
-        print(f"- Timestamps invalides supprimes: {invalid_timestamps:,}")
-        
-        ## Affichage d'infos après parsing des timestamp
-        print("- Nouveau Schema:")
-        df_with_timestamp.printSchema()
-        print("- Apercu des données :")
-        df_with_timestamp.show()
-        
-        # ----------------------------------------------------------------
-        #  Nettoyage: Traitement des valeurs (de la colonne consommation)
-        # ----------------------------------------------------------------
-        # - Valeurs non numeriques & nulles => Supression 
-        # - Valeurs avec virgule            => Remplace la virgule decimal par un point (udf: clean_consommation_udf)
-        # - Valeurs negatives               => Supression
-        # - Outliers (> 10000)          => Supression
+       
+        log_message(msg_log=f"Timestamps invalides supprimes: {invalid_timestamps:,}", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        print("─" * 100)
-        print("[3/6] Traitement des valeurs de consommation (a partir de la colonne 'consommation') ...\n")
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Remplace la virgule decimal par un point
+        # --- Nettoyage à partir de la colonne consommation
+        log_message(msg_log="Nettoyage à partir de la colonne consommation", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="Conversion consommation (string) => nouvelle colonne consommation_clean (DoubleType) => clean_consommation_udf", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # Creation de la colonne consommation_clean dans df_with_consommations en utilisant l'udf clean_consommation_udf
         df_with_consommations = df_with_timestamp.withColumn(
             "consommation_clean",
             clean_consommation_udf(F.col("consommation"))
         )
-        # df_with_consommation.show()
-        
-        ## Filtrer les valeurs non numeriques => transformées en Null grace à l'udf 'clean_consommation_udf'
-        
-        ## Filtrer les valeurs nulles
-        non_numeric_consommations = df_with_consommations.filter(
-            F.col("consommation_clean").isNull()
-        ).count()
 
-        df_with_consommations = df_with_consommations.filter(
-            F.col("consommation_clean").isNotNull()
-        )
-
-        print(f"- Valeurs non numeriques supprimees : {non_numeric_consommations:,}")
-
-        ## Supprimer les valeurs négatives et les outliers (>10000)
-        print("─" * 100)
-        print("[4/6] Suppression des valeurs negatives et les outliers (aberrantes > 10000) ...\n")
-
+        # Suppression des valeurs négatives (consommation_clean < 0)
+        log_message(msg_log="Suppression des valeurs négatives (consommation_clean < 0) & nulles (consommation_clean = NULL)", file_log=True, file_log_name=LOG_FILE_NAME)
         negative_count = df_with_consommations.filter(F.col("consommation_clean") < 0).count()
-        outlier_count = df_with_consommations.filter(F.col("consommation_clean") > 10000).count()
+        null_count = df_with_consommations.filter(F.col("consommation_clean").isNull()).count()
+        df_clean = df_with_consommations.filter((F.col("consommation_clean") >= 0)) # => supprime les négatives (et les nulles incluses)
 
-        df_clean = df_with_consommations.filter(
-            (F.col("consommation_clean") >= 0) & (F.col("consommation_clean") <= 10000)
-        )
-        print(f"- Nombre des valeurs negatives supprimees : {negative_count:,}")
-        print(f"- Nombre des outliers (>10000) supprimes : {outlier_count:,}")
+        log_message(msg_log=f"Nombre des valeurs negatives supprimees : {negative_count:,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"Nombre des valeurs nulles supprimees : {null_count:,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # Suppression des outliers (consommation_clean > 10000)
+        log_message(msg_log="Suppression des outliers (consommation_clean > 10000)", file_log=True, file_log_name=LOG_FILE_NAME)
+        outlier_count = df_clean.filter(F.col("consommation_clean") > 10000).count()
+        df_clean = df_clean.filter((F.col("consommation_clean") <= 10000)) # => supprime les outliers (et les nulles incluses)
+        log_message(msg_log=f"Nombre des outliers (>10000) supprimes : {outlier_count:,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        # df_clean.show()
+        # --- Nettoyage des doublons (Deduplication sur (batiment_id, timestamp, type_energie))
+        log_message(msg_log="Nettoyage des doublons (Deduplication sur (batiment_id, timestamp, type_energie))", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Dédupliquer sur `(batiment_id, timestamp, type_energie)`
-        print("─" * 100)
-        print("[5/6] Deduplication ...\n")
         before_dedup = df_clean.count()
-        df_dedup = df_clean.dropDuplicates(["batiment_id", "timestamp_parsed", "type_energie"])
-        after_dedup = df_dedup.count()
+        df_clean = df_clean.dropDuplicates(["batiment_id", "timestamp_parsed", "type_energie"])
+        after_dedup = df_clean.count()
         duplicates_removed = before_dedup - after_dedup
-        print(f"- Doublons supprimes : {duplicates_removed:,}")
+        log_message(msg_log=f"Nombre de doublons supprimes : {duplicates_removed:,}", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Calculer les moyennes horaires par batiment et type_energie
-        print("─" * 100)
-        print("[6/6] Agregation horaire et sauvegarde ...\n")
-        ## Ajouter les colonnes de temps
-        df_with_time = df_dedup.withColumn(
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # --- Description de df_clean après nettoyage :
+        log_message(msg_log="Description de df_clean après nettoyage", file_log=True, file_log_name=LOG_FILE_NAME)
+        initial_count_df_clean = df_clean.count()
+        log_message(msg_log=f"    - Nombre de lignes : {initial_count_df_clean:,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"    - Nombre de colonnes : {len(df_clean.columns)}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="    - Schema :", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"\n{df_clean._jdf.schema().treeString()}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_df(msg_log="    - Appercu des données (df_clean):", df=df_clean, file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # --- Global Checks de la df_clean après nettoyage
+        log_message(msg_log="Global checks de la df_clean après nettoyage :", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # check timestamp_parsed
+        log_message(msg_log="check de la colonne timestamp_parsed :", file_log=True, file_log_name=LOG_FILE_NAME)
+            # => puisque timestamp a été parsée : timestamp_parsed aura soit des valeurs "corrects" soit des valeurs "nulls"
+            
+            # verif. nulls
+        timestamps_null_after_clean = df_clean.filter((F.col("timestamp_parsed").isNull())).count()
+        if timestamps_null_after_clean != 0:
+            log_message(level="error", msg_log=f"[ko]: Après nettoyage, df_clean contient encore des lignes avec timestamp_parsed nulles : {timestamps_null_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        else:
+            log_message(level="info", msg_log=f"[ok]: Après nettoyage, df_clean ne contient plus des lignes avec timestamp_parsed nulles : {timestamps_null_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        log_message(msg_log="", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # check consommation_clean
+        log_message(msg_log="check de la colonne consommation_clean :", file_log=True, file_log_name=LOG_FILE_NAME)
+            # => puisque consommation a été parsée : il y aura dans consommation_clean soit :
+            # - les valeurs corrects (double)
+            # - soit des Nones 
+            # - soit des négatives
+            # - soit des ouliers (> 10000)
+
+            # verif. nulls
+        conso_null_after_clean = df_clean.filter((F.col("consommation_clean").isNull())).count()
+        if conso_null_after_clean != 0:
+            log_message(level="error", msg_log=f"[ko]: Après nettoyage, df_clean contient encore des lignes avec consommation_clean nulles : {conso_null_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        else:
+            log_message(level="info", msg_log=f"[ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean nulles : {conso_null_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+            # verif. negatives (< 0)
+        conso_negative_after_clean = df_clean.filter((F.col("consommation_clean") < 0)).count()
+        if conso_negative_after_clean != 0:
+            log_message(level="error", msg_log=f"[ko]: Après nettoyage, df_clean contient encore des lignes avec consommation_clean < 0 : {conso_negative_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        else:
+            log_message(level="info", msg_log=f"[ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean < 0 : {conso_negative_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+
+            # verif. outliers (> 10000)
+        conso_outlier_after_clean = df_clean.filter((F.col("consommation_clean") > 10000)).count()
+        if conso_outlier_after_clean != 0:
+            log_message(level="error", msg_log=f"[ko]: Après nettoyage, df_clean contient encore des lignes avec consommation_clean > 10000 (outliers) : {conso_outlier_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        else:
+            log_message(level="info", msg_log=f"[ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean > 10000 (outliers) : {conso_outlier_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        log_message(msg_log="", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # Check doublons :
+        log_message(msg_log="Check des doublons :", file_log=True, file_log_name=LOG_FILE_NAME)
+        df_keys_doublons = (
+            df_clean
+            .groupBy("batiment_id", "timestamp_parsed", "type_energie")
+            .count()
+            .filter(F.col("count") > 1)
+        )
+
+        doublons_after_clean = df_keys_doublons.count()
+
+        if doublons_after_clean != 0:
+            log_message(level="error", msg_log=f"[ko]: Après nettoyage, df_clean contient encore des lignes dupliquées (en 'batiment_id', 'timestamp_parsed', 'type_energie') : {doublons_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+        else:
+            log_message(level="info", msg_log=f"[ok]: Après nettoyage, df_clean ne contient plus des lignes dupliquées (en 'batiment_id', 'timestamp_parsed', 'type_energie') : {doublons_after_clean}", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # -----------------------------------------------------------------------------------
+        # Enrichissement temporel (pour preparer les aggregations)
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="[3/5] Enrichissement temporel (pour preparer les agregations) ...", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        df_with_time = df_clean.withColumn(
             "date", F.to_date(F.col("timestamp_parsed"))
         ).withColumn(
-            "hour", F.hour(F.col("timestamp_parsed"))
+            "heure", F.hour(F.col("timestamp_parsed"))
         ).withColumn(
-            "year", F.year(F.col("timestamp_parsed"))
+            "annee", F.year(F.col("timestamp_parsed"))
         ).withColumn(
-            "month", F.month(F.col("timestamp_parsed"))
+            "mois", F.month(F.col("timestamp_parsed"))
         )
-        print("df_with_time : ")
-        df_with_time.show()
 
-        ## Agreger par heure (par batiment)
-        df_hourly = df_with_time.groupBy(
-            "batiment_id", "date", "hour", "year", "month"
-        ).agg(
-            F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
-            F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
-            F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
-            F.count("*").alias("measurement_count")
-        )
-        print("df_hourly :")
-        df_hourly.show()
+        log_df(msg_log="Apperçu de la df_with_time :", df=df_with_time, file_log=True, file_log_name=LOG_FILE_NAME)
+
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
         
-        ## Agreger par jour (par batiment et type d'energie)
-        df_daily = df_with_time.groupBy(
-            "batiment_id", "type_energie", "unite", "date", "year", "month"
+        # -----------------------------------------------------------------------------------
+        # Agregations
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="[4/5] Agregations ...", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        # --- Agregation 1 : Consommations horaires moyennes par batiment
+        log_message(msg_log="Agregation 1 : Consommations horaires moyennes par batiment (df_horaire)", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        df_horaire = df_with_time.groupBy(
+            "batiment_id", "type_energie", "unite", "date", "heure"
         ).agg(
-            F.min("timestamp_parsed").alias("timestamp_start"),
+            F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
+            #F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
+            #F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
+            #F.count("*").alias("measurement_count")
+        )
+
+        log_df(msg_log="Apperçu de df_horaire :", df=df_horaire, file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # --- Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie
+        log_message(msg_log="Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        df_journaliere = df_with_time.groupBy(
+            "batiment_id", "type_energie", "unite", "date"
+        ).agg(
             F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
             F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
             F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
             F.count("*").alias("measurement_count")
         )
-        print("df_daily : ")
-        df_daily.show()
 
-        ## Agreger par mois (par commune)
+        log_df(msg_log="Apperçu de df_journaliere :", df=df_journaliere, file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # --- Agregation 3 : Consommations mensuelles par commune
+        log_message(msg_log="Agregation 3 : Consommations mensuelles par commune", file_log=True, file_log_name=LOG_FILE_NAME)
+        
         df_monthly = df_with_time.groupBy(
-            "batiment_id", "type_energie", "unite", "date", "year", "month"
+            "batiment_id", "type_energie", "unite", "annee", "mois"
         ).agg(
             F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
             F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
             F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
             F.count("*").alias("measurement_count")
         )
-        print("df_monthly : ")
-        df_monthly.show()
-
-        df_monthly_with_commune = df_monthly.join(
-            df_batiments.select("batiment_id", "nom", "commune", "type"),
-            on="batiment_id",
-            how="left"
-        )
-        print("df_monthly_with_commune : ")
-        df_monthly_with_commune.show()  
         
-        ## Joindre avec les informations des batiments (avec le df_daily var l'enregistrement du parquet sera partitionne par date et type d'energie)
-        df_final = df_daily.join(
-            df_batiments.select("batiment_id", "nom", "commune", "type"),
+        df_monthly_with_commune = df_monthly.join(
+            df_batiments.select("batiment_id", "commune"),
             on="batiment_id",
             how="left"
         )
-        print("df_final : ")
-        df_final.show()
+ 
+        log_df(msg_log="Apperçu de df_monthly_with_commune :", df=df_monthly_with_commune, file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Sauvegarder en Parquet partitionné par `date` et `type_energie`
-        #OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        # -----------------------------------------------------------------------------------
+        # Sauvegarde (df_journaliere)
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="[5/5] Sauvegarde ...", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="Sauvegarder en Parquet partitionne par date et type d'energie => df_journaliere", file_log=True, file_log_name=LOG_FILE_NAME)
+        # => Sauvegarder en Parquet partitionne par date (df_journaliere) et type d'energie
 
-        df_final.write \
+        # Matérialise cache et récupère le count (évite recalcul)
+        final_count = df_journaliere.count()
+
+        # Ecriture en parquet
+        log_message(msg_log="Ecriture en parquet ...", file_log=True, file_log_name=LOG_FILE_NAME)
+
+        start_time_parquet = time.time()
+        df_journaliere.write \
                 .mode("overwrite") \
                 .partitionBy("date", "type_energie") \
-                .parquet(OUTPUT_DIR)
+                .parquet(PARQUET_CONSO_CLEAN_PATH)
+        
+        temps_enregistrement_parquet = time.time() - start_time_parquet
+        log_message(msg_log="Ecriture en parquet terminée avec succès", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log=f"Temps d'enregistrement en parquet : {temps_enregistrement_parquet:.2f} secondes", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Rapport : lignes en entrée, lignes supprimées, lignes en sortie
-        final_count = df_final.count()
+        # -----------------------------------------------------------------------------------
+        # Rapport
+        # -----------------------------------------------------------------------------------
+        log_message(msg_log="RAPPORT DE NETTOYAGE", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Lignes en entree                  : {initial_count:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Timestamps invalides              : {invalid_timestamps:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Valeurs non numeriques            : {null_count:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Valeurs negatives                 : {negative_count:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Outliers (>10000)                 : {outlier_count:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Doublons                          : {duplicates_removed:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        total_removed = invalid_timestamps + null_count + negative_count + outlier_count + duplicates_removed
+        log_message(level="info", msg_log=f"Total lignes supprimees           : {total_removed:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Lignes apres agregation           : {final_count:>12,}", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Fichiers Parquet sauvegardes dans : {PARQUET_CONSO_CLEAN_PATH}", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
+        
+        temps_execution = time.time() - start_time
+        log_message(level="info", msg_log=f"Temps d'exécution de ce script ({CURRENT_SCRIPT_NAME}) : {temps_execution:.2f} secondes", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(level="info", msg_log=f"Ressources machine approximatives allouées à ce traitement : (RAM : {metrics_start['ram_available_gb']:.2f} GB, CPU : {metrics_start['cpu_available_pct']:.2f}% - Approx logical cores free({metrics_start['available_logical_cores']:.2f}) - Approx physical cores free : {metrics_start['available_physical_cores']:.2f})", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Rapport final
-        print("RAPPORT DE NETTOYAGE")
-        print(f"Lignes en entree:              {initial_count:>12,}")
-        print(f"Timestamps invalides:          {invalid_timestamps:>12,}")
-        print(f"Valeurs non numeriques:        {non_numeric_consommations:>12,}")
-        print(f"Valeurs negatives:             {negative_count:>12,}")
-        print(f"Outliers (>10000):              {outlier_count:>12,}")
-        print(f"Doublons:                      {duplicates_removed:>12,}")
-        total_removed = invalid_timestamps + non_numeric_consommations + negative_count + outlier_count + duplicates_removed
-        print(f"Total lignes supprimees:       {total_removed:>12,}")
-        print(f"Lignes apres agregation:       {final_count:>12,}")
-        print(f"\nFichiers Parquet sauvegardes dans: {OUTPUT_DIR}")
+        log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
 
-        ## Ecriture du rapport dans les logs également
-        log_message("info", "*** RAPPORT DE NETTOYAGE - 'script : 02_nettoyage_spark.py' ***", True)
-        log_message("info", f"Lignes en entree                  : {initial_count:>12,}", True)
-        log_message("info", f"Timestamps invalides              : {invalid_timestamps:>12,}", True)
-        log_message("info", f"Valeurs non numeriques            : {non_numeric_consommations:>12,}", True)
-        log_message("info", f"Valeurs negatives                 : {negative_count:>12,}", True)
-        log_message("info", f"Outliers (>10000)                 : {outlier_count:>12,}", True)
-        log_message("info", f"Doublons                          : {duplicates_removed:>12,}", True)
-        log_message("info", f"Total lignes supprimees           : {total_removed:>12,}", True)
-        log_message("info", f"Lignes apres agregation           : {final_count:>12,}", True)
-        log_message("info", f"Fichiers Parquet sauvegardes dans : {OUTPUT_DIR}", True)
-
-        ## Afficher un apercu
-        print("\nApercu des donnees nettoyees:")
-        df_final.show(10)
-        log_message("info", f"Apercu des donnees nettoyees : {df_final.show(10)}", True)
-
-        ## Statistiques par type_energie
-        print("\nStatistiques par type_energie:")
-        df_final.groupBy("type_energie") \
-            .agg(
-                F.count("*").alias("records"),
-                F.round(F.mean("consommation_mean"), 2).alias("avg_consommation"),
-                F.round(F.min("consommation_min"), 2).alias("min_consommation"),
-                F.round(F.max("consommation_max"), 2).alias("max_consommation")
-            ) \
-            .orderBy("type_energie") \
-            .show()
-
-        print("─" * 100)
-        print("[ok]: le script a été exécuté avec succès.")
-        print("─" * 100)
-
-        ## end time (pour mesurer le temps d'execution de ce script)
-        end = time.time()
-        print(f"Temps d'exécution : {end - start:.4f} secondes")
-        log_message("info", f"Temps d'exécution de ce script (02_nettoyage_spark.py) : {end - start:.4f} secondes", True)
+        log_message(level="info", msg_log="[ok]: Fin du traitement, le script a été exécuté avec succès", file_log=True, file_log_name=LOG_FILE_NAME)
 
     except Exception as e:
-        print("─" * 100)
-        print(f"[ko]: {e}")
-        print("─" * 100)
+        log_message(level="error", msg_log=f"[ko]: {e}", file_log=True, file_log_name=LOG_FILE_NAME)
         
     finally:
-        ## Fermer Spark
         try:
+            if df_journaliere is not None:
+                try:
+                    df_journaliere.unpersist()
+                    log_message(msg_log=f"[ok]: cache de df_journaliere libéré", file_log=True, file_log_name=LOG_FILE_NAME)
+                except:
+                    log_message(level="error", msg_log="[ko]: error lors de la libération du cache pour df_journaliere", file_log=True, file_log_name=LOG_FILE_NAME)
             if spark:
                 close_spark_session(spark)
         except:
             pass
 
+        log_message(msg_log="=" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
 
 
 if __name__ == "__main__":
