@@ -401,13 +401,17 @@ def main():
         # --- Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie
         log_message(msg_log="Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie", file_log=True, file_log_name=LOG_FILE_NAME)
         
-        df_journaliere = df_with_time.groupBy(
-            "batiment_id", "type_energie", "unite", "date"
-        ).agg(
-            F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
-            F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
-            F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
-            F.count("*").alias("measurement_count")
+        df_journaliere = (
+            df_with_time
+            .groupBy(
+                "batiment_id", "date", "type_energie", "unite", 
+            )
+            .agg(
+                F.round(F.mean("consommation_clean"), 2).alias("consommation_moyenne"),
+            )
+            .select(
+                "batiment_id", "date", "type_energie", "consommation_moyenne", "unite",
+            )
         )
 
         log_df(msg_log="Apperçu de df_journaliere :", df=df_journaliere, file_log=True, file_log_name=LOG_FILE_NAME)
