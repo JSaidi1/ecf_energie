@@ -218,3 +218,17 @@ __marimo__/
 
 # not useful Looping (mcd) file
 **lo1
+
+## fichiers / dossiers lourds ( il y aura ques les fichiers/dossiers compressés dans le git)
+**/02_consommations_clean/
+**/data/batiments.csv
+**/data/consommations_raw.csv
+**/data/consommations_raw-light.csv
+**/data/meteo_raw.csv
+**/data/tarifs_energie.csv
+**/data/data_ecf
+**logs/app.log
+
+##
+**-old**
+
