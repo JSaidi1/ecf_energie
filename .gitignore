@@ -227,7 +227,6 @@ __marimo__/
 **/data/meteo_raw.csv
 **/data/tarifs_energie.csv
 **/data/data_ecf
-**logs/app.log
 
 ##
 **-old**
