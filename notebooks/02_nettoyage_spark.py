@@ -386,15 +386,16 @@ def main():
         # --- Agregation 1 : Consommations horaires moyennes par batiment
         log_message(msg_log="Agregation 1 : Consommations horaires moyennes par batiment (df_horaire)", file_log=True, file_log_name=LOG_FILE_NAME)
         
-        df_horaire = df_with_time.groupBy(
-            "batiment_id", "type_energie", "unite", "date", "heure"
-        ).agg(
-            F.round(F.mean("consommation_clean"), 2).alias("consommation_mean"),
-            #F.round(F.min("consommation_clean"), 2).alias("consommation_min"),
-            #F.round(F.max("consommation_clean"), 2).alias("consommation_max"),
-            #F.count("*").alias("measurement_count")
+        df_horaire = (df_with_time
+            .groupBy(
+                "batiment_id", "type_energie", "unite", "date", "heure"
+            ).agg(
+                F.round(F.mean("consommation_clean"), 2).alias("consommation_moyenne"),
+            )
+            .select(
+                    "batiment_id", "date", "heure", "type_energie", "consommation_moyenne", "unite",
+            )
         )
-
         log_df(msg_log="Apperçu de df_horaire :", df=df_horaire, file_log=True, file_log_name=LOG_FILE_NAME)
         log_message(msg_log="---", file_log=True, file_log_name=LOG_FILE_NAME)
         
@@ -440,20 +441,20 @@ def main():
         log_message(msg_log="─" * 95, file_log=True, file_log_name=LOG_FILE_NAME)
         
         # -----------------------------------------------------------------------------------
-        # Sauvegarde (df_journaliere)
+        # Sauvegarde (df_horaire)
         # -----------------------------------------------------------------------------------
         log_message(msg_log="[5/5] Sauvegarde ...", file_log=True, file_log_name=LOG_FILE_NAME)
-        log_message(msg_log="Sauvegarder en Parquet partitionne par date et type d'energie => df_journaliere", file_log=True, file_log_name=LOG_FILE_NAME)
+        log_message(msg_log="Sauvegarder en Parquet partitionne par date et type d'energie ", file_log=True, file_log_name=LOG_FILE_NAME)
         # => Sauvegarder en Parquet partitionne par date (df_journaliere) et type d'energie
 
-        # Matérialise cache et récupère le count (évite recalcul)
-        final_count = df_journaliere.count()
+        # Récupère le count (évite recalcul)
+        final_count = df_horaire.count()
 
         # Ecriture en parquet
         log_message(msg_log="Ecriture en parquet ...", file_log=True, file_log_name=LOG_FILE_NAME)
 
         start_time_parquet = time.time()
-        df_journaliere.write \
+        df_horaire.write \
                 .mode("overwrite") \
                 .partitionBy("date", "type_energie") \
                 .parquet(PARQUET_CONSO_CLEAN_PATH)
@@ -494,12 +495,12 @@ def main():
         
     finally:
         try:
-            if df_journaliere is not None:
+            if df_horaire is not None:
                 try:
-                    df_journaliere.unpersist()
-                    log_message(msg_log=f"[ok]: cache de df_journaliere libéré", file_log=True, file_log_name=LOG_FILE_NAME)
+                    df_horaire.unpersist()
+                    log_message(msg_log=f"[ok]: cache de df_horaire libéré", file_log=True, file_log_name=LOG_FILE_NAME)
                 except:
-                    log_message(level="error", msg_log="[ko]: error lors de la libération du cache pour df_journaliere", file_log=True, file_log_name=LOG_FILE_NAME)
+                    log_message(level="error", msg_log="[ko]: error lors de la libération du cache pour df_horaire", file_log=True, file_log_name=LOG_FILE_NAME)
             if spark:
                 close_spark_session(spark)
         except:

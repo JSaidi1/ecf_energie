@@ -1,30 +1,30 @@
-2026-02-10 14:30:37,993 - [INFO] - ===============================================================================================
-2026-02-10 14:30:38,015 - [INFO] -                Logs de traitement (nettoyage) - script: 02_nettoyage_spark.py
-2026-02-10 14:30:38,027 - [INFO] -                          Etape 1.2 - Pipeline de nettoyage Spark
-2026-02-10 14:30:38,033 - [INFO] - ===============================================================================================
-2026-02-10 14:30:40,058 - [INFO] - Ressources actuellement disponibles sur la machine :
-2026-02-10 14:30:42,091 - [INFO] - RAM actuellement disponible sur la machine (free) : 13.30 GB
-2026-02-10 14:30:42,106 - [INFO] - CPU actuellement disponible sur la machine (free) : 99.9%
-2026-02-10 14:30:42,120 - [INFO] -         Approx logical cores  (free) : 19.98
-2026-02-10 14:30:42,131 - [INFO] -         Approx physical cores (free) : 9.99
-2026-02-10 14:30:42,139 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:30:42,147 - [INFO] - Creation d'une session Spark ...
-2026-02-10 14:30:43,409 - [INFO] - Spark version  : 3.5.3
-2026-02-10 14:30:43,425 - [INFO] - Spark UI       : http://spark-master:4040
-2026-02-10 14:30:43,440 - [INFO] - Python version : 3.8.10
-2026-02-10 14:30:43,453 - [INFO] - Python path    : /usr/bin/python3
-2026-02-10 14:30:43,470 - [INFO] - Java version   : 11.0.24
-2026-02-10 14:30:43,487 - [INFO] - Java home      : /opt/java/openjdk
-2026-02-10 14:30:43,504 - [INFO] - [ok]: creation de la session Spark avec succès
-2026-02-10 14:30:43,528 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:30:43,546 - [INFO] - Enregistrement des udf parse_timestamp_udf & clean_consommation_udf
-2026-02-10 14:30:44,528 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:30:44,544 - [INFO] - [1/5] Chargement des donnees brutes ...
-2026-02-10 14:30:44,561 - [INFO] - Creation de df_consommation_raw (à partir consommations_raw.csv)
-2026-02-10 14:30:52,777 - [INFO] -     - Lignes en entree : 7,758,868
-2026-02-10 14:30:52,806 - [INFO] -     - Nombre de colonnes : 5
-2026-02-10 14:30:52,827 - [INFO] -     - Schema :
-2026-02-10 14:30:52,842 - [INFO] - 
+2026-02-11 08:52:10,714 - [INFO] - ===============================================================================================
+2026-02-11 08:52:10,727 - [INFO] -                Logs de traitement (nettoyage) - script: 02_nettoyage_spark.py
+2026-02-11 08:52:10,734 - [INFO] -                          Etape 1.2 - Pipeline de nettoyage Spark
+2026-02-11 08:52:10,742 - [INFO] - ===============================================================================================
+2026-02-11 08:52:12,755 - [INFO] - Ressources actuellement disponibles sur la machine :
+2026-02-11 08:52:14,852 - [INFO] - RAM actuellement disponible sur la machine (free) : 13.17 GB
+2026-02-11 08:52:14,921 - [INFO] - CPU actuellement disponible sur la machine (free) : 100.0%
+2026-02-11 08:52:15,017 - [INFO] -         Approx logical cores  (free) : 20.00
+2026-02-11 08:52:15,036 - [INFO] -         Approx physical cores (free) : 10.00
+2026-02-11 08:52:15,055 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 08:52:15,075 - [INFO] - Creation d'une session Spark ...
+2026-02-11 08:52:16,608 - [INFO] - Spark version  : 3.5.3
+2026-02-11 08:52:16,629 - [INFO] - Spark UI       : http://spark-master:4040
+2026-02-11 08:52:16,646 - [INFO] - Python version : 3.8.10
+2026-02-11 08:52:16,662 - [INFO] - Python path    : /usr/bin/python3
+2026-02-11 08:52:16,681 - [INFO] - Java version   : 11.0.24
+2026-02-11 08:52:16,697 - [INFO] - Java home      : /opt/java/openjdk
+2026-02-11 08:52:16,715 - [INFO] - [ok]: creation de la session Spark avec succès
+2026-02-11 08:52:16,736 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 08:52:16,753 - [INFO] - Enregistrement des udf parse_timestamp_udf & clean_consommation_udf
+2026-02-11 08:52:17,564 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 08:52:17,582 - [INFO] - [1/5] Chargement des donnees brutes ...
+2026-02-11 08:52:17,597 - [INFO] - Creation de df_consommation_raw (à partir consommations_raw.csv)
+2026-02-11 08:52:25,701 - [INFO] -     - Lignes en entree : 7,758,868
+2026-02-11 08:52:25,731 - [INFO] -     - Nombre de colonnes : 5
+2026-02-11 08:52:25,739 - [INFO] -     - Schema :
+2026-02-11 08:52:25,752 - [INFO] - 
 root
  |-- batiment_id: string (nullable = true)
  |-- timestamp: string (nullable = true)
@@ -32,7 +32,7 @@ root
  |-- consommation: string (nullable = true)
  |-- unite: string (nullable = true)
 
-2026-02-10 14:30:52,985 - [INFO] -     - Appercu des données (df_consommation_raw):
+2026-02-11 08:52:25,894 - [INFO] -     - Appercu des données (df_consommation_raw):
 +----+---------------+---------------------+----------------+----------------+---------+
 |    | batiment_id   | timestamp           | type_energie   |   consommation | unite   |
 +====+===============+=====================+================+================+=========+
@@ -56,31 +56,31 @@ root
 +----+---------------+---------------------+----------------+----------------+---------+
 |  9 | BAT0022       | 2024-10-30 03:00:00 | eau            |           0.8  | m3      |
 +----+---------------+---------------------+----------------+----------------+---------+
-2026-02-10 14:30:52,994 - [INFO] - ---
-2026-02-10 14:30:53,018 - [INFO] - Creation de df_batiments (à partir batiments.csv)
-2026-02-10 14:30:53,283 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:30:53,296 - [INFO] - [2/5] Nettoyage ...
-2026-02-10 14:30:53,310 - [INFO] - Nettoyage à partir de la colonne timestamps
-2026-02-10 14:30:53,322 - [INFO] - Conversion timestamp(string) => nouvelle colonne timestamp_parsed (TimestampType) => parse_timestamp_udf
-2026-02-10 14:30:53,371 - [INFO] - Suppression des lignes où timestamp_parsed est NULL
-2026-02-10 14:31:22,302 - [INFO] - Timestamps invalides supprimes: 0
-2026-02-10 14:31:22,313 - [INFO] - ---
-2026-02-10 14:31:22,334 - [INFO] - Nettoyage à partir de la colonne consommation
-2026-02-10 14:31:22,354 - [INFO] - Conversion consommation (string) => nouvelle colonne consommation_clean (DoubleType) => clean_consommation_udf
-2026-02-10 14:31:22,389 - [INFO] - Suppression des valeurs négatives (consommation_clean < 0) & nulles (consommation_clean = NULL)
-2026-02-10 14:32:23,048 - [INFO] - Nombre des valeurs negatives supprimees : 38,910
-2026-02-10 14:32:23,069 - [INFO] - Nombre des valeurs nulles supprimees : 38,975
-2026-02-10 14:32:23,081 - [INFO] - Suppression des outliers (consommation_clean > 10000)
-2026-02-10 14:32:55,087 - [INFO] - Nombre des outliers (>10000) supprimes : 38,560
-2026-02-10 14:32:55,101 - [INFO] - ---
-2026-02-10 14:32:55,111 - [INFO] - Nettoyage des doublons (Deduplication sur (batiment_id, timestamp, type_energie))
-2026-02-10 14:34:19,974 - [INFO] - Nombre de doublons supprimes : 645,635
-2026-02-10 14:34:19,993 - [INFO] - ---
-2026-02-10 14:34:20,007 - [INFO] - Description de df_clean après nettoyage
-2026-02-10 14:35:10,686 - [INFO] -     - Nombre de lignes : 6,996,788
-2026-02-10 14:35:10,703 - [INFO] -     - Nombre de colonnes : 7
-2026-02-10 14:35:10,716 - [INFO] -     - Schema :
-2026-02-10 14:35:10,730 - [INFO] - 
+2026-02-11 08:52:25,908 - [INFO] - ---
+2026-02-11 08:52:25,924 - [INFO] - Creation de df_batiments (à partir batiments.csv)
+2026-02-11 08:52:26,165 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 08:52:26,182 - [INFO] - [2/5] Nettoyage ...
+2026-02-11 08:52:26,201 - [INFO] - Nettoyage à partir de la colonne timestamps
+2026-02-11 08:52:26,210 - [INFO] - Conversion timestamp(string) => nouvelle colonne timestamp_parsed (TimestampType) => parse_timestamp_udf
+2026-02-11 08:52:26,254 - [INFO] - Suppression des lignes où timestamp_parsed est NULL
+2026-02-11 08:52:54,401 - [INFO] - Timestamps invalides supprimes: 0
+2026-02-11 08:52:54,418 - [INFO] - ---
+2026-02-11 08:52:54,428 - [INFO] - Nettoyage à partir de la colonne consommation
+2026-02-11 08:52:54,440 - [INFO] - Conversion consommation (string) => nouvelle colonne consommation_clean (DoubleType) => clean_consommation_udf
+2026-02-11 08:52:54,467 - [INFO] - Suppression des valeurs négatives (consommation_clean < 0) & nulles (consommation_clean = NULL)
+2026-02-11 08:53:54,544 - [INFO] - Nombre des valeurs negatives supprimees : 38,910
+2026-02-11 08:53:54,558 - [INFO] - Nombre des valeurs nulles supprimees : 38,975
+2026-02-11 08:53:54,570 - [INFO] - Suppression des outliers (consommation_clean > 10000)
+2026-02-11 08:54:28,505 - [INFO] - Nombre des outliers (>10000) supprimes : 38,560
+2026-02-11 08:54:28,592 - [INFO] - ---
+2026-02-11 08:54:28,681 - [INFO] - Nettoyage des doublons (Deduplication sur (batiment_id, timestamp, type_energie))
+2026-02-11 08:55:57,808 - [INFO] - Nombre de doublons supprimes : 645,635
+2026-02-11 08:55:57,824 - [INFO] - ---
+2026-02-11 08:55:57,835 - [INFO] - Description de df_clean après nettoyage
+2026-02-11 08:56:49,242 - [INFO] -     - Nombre de lignes : 6,996,788
+2026-02-11 08:56:49,260 - [INFO] -     - Nombre de colonnes : 7
+2026-02-11 08:56:49,273 - [INFO] -     - Schema :
+2026-02-11 08:56:49,287 - [INFO] - 
 root
  |-- batiment_id: string (nullable = true)
  |-- timestamp: string (nullable = true)
@@ -90,7 +90,7 @@ root
  |-- timestamp_parsed: timestamp (nullable = true)
  |-- consommation_clean: double (nullable = true)
 
-2026-02-10 14:36:04,882 - [INFO] -     - Appercu des données (df_clean):
+2026-02-11 08:57:43,390 - [INFO] -     - Appercu des données (df_clean):
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+
 |    | batiment_id   | timestamp           | type_energie   | consommation   | unite   | timestamp_parsed    |   consommation_clean |
 +====+===============+=====================+================+================+=========+=====================+======================+
@@ -114,22 +114,22 @@ root
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+
 |  9 | BAT0001       | 2023-01-02 00:00:00 | eau            | 1.38           | m3      | 2023-01-02 00:00:00 |                 1.38 |
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+
-2026-02-10 14:36:04,904 - [INFO] - ---
-2026-02-10 14:36:04,919 - [INFO] - Global checks de la df_clean après nettoyage :
-2026-02-10 14:36:04,932 - [INFO] - 
-2026-02-10 14:36:04,946 - [INFO] - check de la colonne timestamp_parsed :
-2026-02-10 14:36:38,349 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec timestamp_parsed nulles : 0
-2026-02-10 14:36:38,368 - [INFO] - 
-2026-02-10 14:36:38,383 - [INFO] - check de la colonne consommation_clean :
-2026-02-10 14:37:32,307 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean nulles : 0
-2026-02-10 14:38:27,493 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean < 0 : 0
-2026-02-10 14:39:24,726 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean > 10000 (outliers) : 0
-2026-02-10 14:39:24,745 - [INFO] - 
-2026-02-10 14:39:24,760 - [INFO] - Check des doublons :
-2026-02-10 14:40:22,000 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes dupliquées (en 'batiment_id', 'timestamp_parsed', 'type_energie') : 0
-2026-02-10 14:40:22,019 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:40:22,034 - [INFO] - [3/5] Enrichissement temporel (pour preparer les agregations) ...
-2026-02-10 14:41:21,022 - [INFO] - Apperçu de la df_with_time :
+2026-02-11 08:57:43,401 - [INFO] - ---
+2026-02-11 08:57:43,411 - [INFO] - Global checks de la df_clean après nettoyage :
+2026-02-11 08:57:43,420 - [INFO] - 
+2026-02-11 08:57:43,429 - [INFO] - check de la colonne timestamp_parsed :
+2026-02-11 08:58:16,365 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec timestamp_parsed nulles : 0
+2026-02-11 08:58:16,375 - [INFO] - 
+2026-02-11 08:58:16,383 - [INFO] - check de la colonne consommation_clean :
+2026-02-11 08:59:12,082 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean nulles : 0
+2026-02-11 09:00:07,216 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean < 0 : 0
+2026-02-11 09:01:03,467 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes avec consommation_clean > 10000 (outliers) : 0
+2026-02-11 09:01:03,484 - [INFO] - 
+2026-02-11 09:01:03,494 - [INFO] - Check des doublons :
+2026-02-11 09:02:01,046 - [INFO] - [ok]: Après nettoyage, df_clean ne contient plus des lignes dupliquées (en 'batiment_id', 'timestamp_parsed', 'type_energie') : 0
+2026-02-11 09:02:01,064 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 09:02:01,077 - [INFO] - [3/5] Enrichissement temporel (pour preparer les agregations) ...
+2026-02-11 09:03:00,594 - [INFO] - Apperçu de la df_with_time :
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+------------+---------+---------+--------+
 |    | batiment_id   | timestamp           | type_energie   | consommation   | unite   | timestamp_parsed    |   consommation_clean | date       |   heure |   annee |   mois |
 +====+===============+=====================+================+================+=========+=====================+======================+============+=========+=========+========+
@@ -153,36 +153,36 @@ root
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+------------+---------+---------+--------+
 |  9 | BAT0001       | 2023-01-02 00:00:00 | eau            | 1.38           | m3      | 2023-01-02 00:00:00 |                 1.38 | 2023-01-02 |       0 |    2023 |      1 |
 +----+---------------+---------------------+----------------+----------------+---------+---------------------+----------------------+------------+---------+---------+--------+
-2026-02-10 14:41:21,033 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:41:21,043 - [INFO] - [4/5] Agregations ...
-2026-02-10 14:41:21,051 - [INFO] - Agregation 1 : Consommations horaires moyennes par batiment (df_horaire)
-2026-02-10 14:42:23,196 - [INFO] - Apperçu de df_horaire :
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|    | batiment_id   | type_energie   | unite   | date       |   heure |   consommation_mean |
-+====+===============+================+=========+============+=========+=====================+
-|  0 | BAT0001       | gaz            | kWh     | 2023-01-05 |      12 |              245.08 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  1 | BAT0001       | gaz            | kWh     | 2023-01-06 |      18 |              426.39 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  2 | BAT0001       | eau            | m3      | 2023-01-16 |      12 |               10.24 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  3 | BAT0001       | electricite    | kWh     | 2023-01-23 |      19 |              276.98 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  4 | BAT0001       | electricite    | kWh     | 2023-01-24 |       0 |               38.94 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  5 | BAT0001       | electricite    | kWh     | 2023-02-08 |       4 |               22.68 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  6 | BAT0001       | gaz            | kWh     | 2023-02-28 |      18 |              373.14 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  7 | BAT0001       | gaz            | kWh     | 2023-03-02 |      20 |              263.14 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  8 | BAT0001       | eau            | m3      | 2023-03-25 |       4 |                0.22 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-|  9 | BAT0001       | gaz            | kWh     | 2023-04-25 |      13 |              244.79 |
-+----+---------------+----------------+---------+------------+---------+---------------------+
-2026-02-10 14:42:23,214 - [INFO] - ---
-2026-02-10 14:42:23,229 - [INFO] - Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie
-2026-02-10 14:43:23,137 - [INFO] - Apperçu de df_journaliere :
+2026-02-11 09:03:00,611 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 09:03:00,626 - [INFO] - [4/5] Agregations ...
+2026-02-11 09:03:00,640 - [INFO] - Agregation 1 : Consommations horaires moyennes par batiment (df_horaire)
+2026-02-11 09:04:03,397 - [INFO] - Apperçu de df_horaire :
++----+---------------+------------+---------+----------------+------------------------+---------+
+|    | batiment_id   | date       |   heure | type_energie   |   consommation_moyenne | unite   |
++====+===============+============+=========+================+========================+=========+
+|  0 | BAT0001       | 2023-01-17 |       0 | gaz            |                  57.36 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  1 | BAT0001       | 2023-02-14 |       6 | eau            |                  11.44 | m3      |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  2 | BAT0001       | 2023-03-01 |       9 | gaz            |                 278.54 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  3 | BAT0001       | 2023-03-22 |      15 | eau            |                  18.16 | m3      |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  4 | BAT0001       | 2023-04-08 |      23 | electricite    |                   4.51 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  5 | BAT0001       | 2023-06-08 |       0 | gaz            |                   3    | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  6 | BAT0001       | 2023-07-11 |      22 | eau            |                  12.89 | m3      |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  7 | BAT0001       | 2023-08-08 |       0 | gaz            |                  23.66 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  8 | BAT0001       | 2023-08-15 |       5 | electricite    |                  14.33 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+|  9 | BAT0001       | 2023-08-22 |      13 | electricite    |                 155.37 | kWh     |
++----+---------------+------------+---------+----------------+------------------------+---------+
+2026-02-11 09:04:03,409 - [INFO] - ---
+2026-02-11 09:04:03,417 - [INFO] - Agregation 2 : Consommations journalieres (par date) par batiment et type d'energie
+2026-02-11 09:05:04,274 - [INFO] - Apperçu de df_journaliere :
 +----+---------------+------------+----------------+------------------------+---------+
 |    | batiment_id   | date       | type_energie   |   consommation_moyenne | unite   |
 +====+===============+============+================+========================+=========+
@@ -196,7 +196,7 @@ root
 +----+---------------+------------+----------------+------------------------+---------+
 |  4 | BAT0001       | 2024-06-28 | electricite    |                 116.23 | kWh     |
 +----+---------------+------------+----------------+------------------------+---------+
-|  5 | BAT0001       | 2024-09-01 | gaz            |                 157.51 | kWh     |
+|  5 | BAT0001       | 2024-09-01 | gaz            |                 126.37 | kWh     |
 +----+---------------+------------+----------------+------------------------+---------+
 |  6 | BAT0001       | 2024-09-06 | electricite    |                 126.09 | kWh     |
 +----+---------------+------------+----------------+------------------------+---------+
@@ -206,55 +206,55 @@ root
 +----+---------------+------------+----------------+------------------------+---------+
 |  9 | BAT0002       | 2023-03-09 | gaz            |                  80.61 | kWh     |
 +----+---------------+------------+----------------+------------------------+---------+
-2026-02-10 14:43:23,156 - [INFO] - ---
-2026-02-10 14:43:23,174 - [INFO] - Agregation 3 : Consommations mensuelles par commune
-2026-02-10 14:44:22,606 - [INFO] - Apperçu de df_monthly_with_commune :
+2026-02-11 09:05:04,285 - [INFO] - ---
+2026-02-11 09:05:04,298 - [INFO] - Agregation 3 : Consommations mensuelles par commune
+2026-02-11 09:06:04,902 - [INFO] - Apperçu de df_monthly_with_commune :
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
 |    | batiment_id   | type_energie   | unite   |   annee |   mois |   consommation_mean |   consommation_min |   consommation_max |   measurement_count | commune   |
 +====+===============+================+=========+=========+========+=====================+====================+====================+=====================+===========+
-|  0 | BAT0003       | eau            | m3      |    2023 |     11 |                5.59 |               0.13 |              14.3  |                 645 | Paris     |
+|  0 | BAT0003       | eau            | m3      |    2023 |     11 |                5.58 |               0.13 |              14.3  |                 645 | Paris     |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  1 | BAT0005       | eau            | m3      |    2024 |      4 |              317.11 |              27.96 |             661.14 |                 660 | Paris     |
+|  1 | BAT0005       | eau            | m3      |    2024 |      4 |              317.13 |              27.96 |             661.14 |                 660 | Paris     |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  2 | BAT0007       | gaz            | kWh     |    2023 |      4 |              132.76 |               8.61 |             423.71 |                 643 | Paris     |
+|  2 | BAT0007       | gaz            | kWh     |    2023 |      4 |              132.6  |               8.61 |             423.71 |                 643 | Paris     |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  3 | BAT0013       | electricite    | kWh     |    2023 |     12 |              168.52 |               8.19 |             359.96 |                 687 | Lyon      |
+|  3 | BAT0013       | electricite    | kWh     |    2023 |     12 |              169.04 |               8.19 |             359.96 |                 687 | Lyon      |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  4 | BAT0015       | gaz            | kWh     |    2024 |      6 |               92.39 |               2.11 |             495.75 |                 646 | Lyon      |
+|  4 | BAT0015       | gaz            | kWh     |    2024 |      6 |               92.61 |               2.11 |             495.75 |                 646 | Lyon      |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  5 | BAT0023       | eau            | m3      |    2023 |      4 |                8.54 |               0.2  |              24.06 |                 661 | Marseille |
+|  5 | BAT0023       | eau            | m3      |    2023 |      4 |                8.49 |               0.2  |              24.06 |                 661 | Marseille |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  6 | BAT0023       | electricite    | kWh     |    2024 |      9 |              144.9  |               3.29 |             563.2  |                 653 | Marseille |
+|  6 | BAT0023       | electricite    | kWh     |    2024 |      9 |              144.69 |               3.29 |             563.2  |                 653 | Marseille |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  7 | BAT0031       | eau            | m3      |    2023 |      8 |                2.09 |               0.18 |               4.4  |                 690 | Marseille |
+|  7 | BAT0031       | eau            | m3      |    2023 |      8 |                2.08 |               0.18 |               4.4  |                 690 | Marseille |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
 |  8 | BAT0033       | eau            | m3      |    2023 |      7 |                2.15 |               0.19 |               4.47 |                 684 | Toulouse  |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-|  9 | BAT0035       | electricite    | kWh     |    2023 |     10 |               53.66 |               0.89 |             226.19 |                 671 | Toulouse  |
+|  9 | BAT0035       | electricite    | kWh     |    2023 |     10 |               53.63 |               0.89 |             226.19 |                 671 | Toulouse  |
 +----+---------------+----------------+---------+---------+--------+---------------------+--------------------+--------------------+---------------------+-----------+
-2026-02-10 14:44:22,626 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 14:44:22,644 - [INFO] - [5/5] Sauvegarde ...
-2026-02-10 14:44:22,662 - [INFO] - Sauvegarder en Parquet partitionne par date et type d'energie => df_journaliere
-2026-02-10 14:45:21,297 - [INFO] - Ecriture en parquet ...
-2026-02-10 15:01:29,514 - [INFO] - Ecriture en parquet terminée avec succès
-2026-02-10 15:01:29,530 - [INFO] - Temps d'enregistrement en parquet : 968.21 secondes
-2026-02-10 15:01:29,544 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 15:01:29,557 - [INFO] - RAPPORT DE NETTOYAGE
-2026-02-10 15:01:29,569 - [INFO] - Lignes en entree                  :    7,758,868
-2026-02-10 15:01:29,583 - [INFO] - Timestamps invalides              :            0
-2026-02-10 15:01:29,598 - [INFO] - Valeurs non numeriques            :       38,975
-2026-02-10 15:01:29,615 - [INFO] - Valeurs negatives                 :       38,910
-2026-02-10 15:01:29,629 - [INFO] - Outliers (>10000)                 :       38,560
-2026-02-10 15:01:29,641 - [INFO] - Doublons                          :      645,635
-2026-02-10 15:01:29,653 - [INFO] - Total lignes supprimees           :      762,080
-2026-02-10 15:01:29,664 - [INFO] - Lignes apres agregation           :      320,178
-2026-02-10 15:01:29,677 - [INFO] - Fichiers Parquet sauvegardes dans : /output/02_consommations_clean
-2026-02-10 15:01:29,688 - [INFO] - ---
-2026-02-10 15:01:29,698 - [INFO] - Temps d'exécution de ce script (02_nettoyage_spark.py) : 1851.65 secondes
-2026-02-10 15:01:29,712 - [INFO] - Ressources machine approximatives allouées à ce traitement : (RAM : 13.30 GB, CPU : 99.90% - Approx logical cores free(19.98) - Approx physical cores free : 9.99)
-2026-02-10 15:01:29,721 - [INFO] - ---
-2026-02-10 15:01:29,735 - [INFO] - [ok]: Fin du traitement, le script a été exécuté avec succès
-2026-02-10 15:01:29,751 - [INFO] - [ok]: cache de df_journaliere libéré
-2026-02-10 15:01:29,765 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-10 15:01:30,155 - [INFO] - [ok]: la session spark a ete arretee avec succes
-2026-02-10 15:01:30,165 - [INFO] - ===============================================================================================
+2026-02-11 09:06:04,924 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 09:06:04,934 - [INFO] - [5/5] Sauvegarde ...
+2026-02-11 09:06:04,942 - [INFO] - Sauvegarder en Parquet partitionne par date et type d'energie 
+2026-02-11 09:07:05,163 - [INFO] - Ecriture en parquet ...
+2026-02-11 09:29:36,743 - [INFO] - Ecriture en parquet terminée avec succès
+2026-02-11 09:29:36,753 - [INFO] - Temps d'enregistrement en parquet : 1351.58 secondes
+2026-02-11 09:29:36,774 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 09:29:36,784 - [INFO] - RAPPORT DE NETTOYAGE
+2026-02-11 09:29:36,797 - [INFO] - Lignes en entree                  :    7,758,868
+2026-02-11 09:29:36,806 - [INFO] - Timestamps invalides              :            0
+2026-02-11 09:29:36,818 - [INFO] - Valeurs non numeriques            :       38,975
+2026-02-11 09:29:36,827 - [INFO] - Valeurs negatives                 :       38,910
+2026-02-11 09:29:36,839 - [INFO] - Outliers (>10000)                 :       38,560
+2026-02-11 09:29:36,848 - [INFO] - Doublons                          :      645,635
+2026-02-11 09:29:36,863 - [INFO] - Total lignes supprimees           :      762,080
+2026-02-11 09:29:36,871 - [INFO] - Lignes apres agregation           :    6,996,788
+2026-02-11 09:29:36,881 - [INFO] - Fichiers Parquet sauvegardes dans : /output/02_consommations_clean
+2026-02-11 09:29:36,889 - [INFO] - ---
+2026-02-11 09:29:36,911 - [INFO] - Temps d'exécution de ce script (02_nettoyage_spark.py) : 2246.15 secondes
+2026-02-11 09:29:36,919 - [INFO] - Ressources machine approximatives allouées à ce traitement : (RAM : 13.17 GB, CPU : 100.00% - Approx logical cores free(20.00) - Approx physical cores free : 10.00)
+2026-02-11 09:29:36,932 - [INFO] - ---
+2026-02-11 09:29:36,941 - [INFO] - [ok]: Fin du traitement, le script a été exécuté avec succès
+2026-02-11 09:29:36,952 - [INFO] - [ok]: cache de df_horaire libéré
+2026-02-11 09:29:36,961 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-11 09:29:37,757 - [INFO] - [ok]: la session spark a ete arretee avec succes
+2026-02-11 09:29:37,779 - [INFO] - ===============================================================================================
