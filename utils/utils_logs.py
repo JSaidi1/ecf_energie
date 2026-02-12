@@ -2,22 +2,20 @@ import logging
 import os
 from pathlib import Path
 import sys
-from typing import Literal
 import inspect
 from tabulate import tabulate
 
 from pandas import DataFrame
 from pyspark.sql.dataframe import DataFrame
 
-LOG_FOLDER_PATH = "/logs" # default
+LOG_DIR_PATH = "logs" # default
 LOG_FILE_NAME = "app.log" # default
-# LOGLEVEL = Literal["debug", "info", "warning", "error", "critical"] 
 
 def log_message(
     msg_log: str,
-    #level: LOGLEVEL,
     level: str = "info",
     file_log: bool = False,
+    file_log_dir: str = LOG_DIR_PATH,
     file_log_name: str = LOG_FILE_NAME,
     file_log_clear: bool = False,
     console_log: bool = True,
@@ -39,7 +37,7 @@ def log_message(
     Parameters:
         `level` : Log severity level ("debug", "info", "warning", "error", "critical"). By default = "info"
         `msg_log` (str): The message to be logged.
-        `file_log` (bool): If True, log the message to a file located at LOG_FOLDER_PATH / LOG_FILE_NAME.
+        `file_log` (bool): If True, log the message to a file located at LOG_DIR_PATH / LOG_FILE_NAME.
         `console_log` (bool): If True, log the message to the console.
         `debug_mode` (bool): If True, enable DEBUG level logging and append caller file and line information to the message.
 
@@ -60,6 +58,9 @@ def log_message(
 
         # === Console log
         if console_log:
+            # (optionnel) forcer UTF-8 dans la console
+            sys.stdout.reconfigure(encoding="utf-8")
+
             console_handler = logging.StreamHandler()
             if set_formatter:
                 console_handler.setFormatter(formatter)
@@ -69,10 +70,11 @@ def log_message(
         if file_log:
             if file_log_name != None and file_log_name != "":
                 LOG_FILE_NAME = file_log_name
-            Path(LOG_FOLDER_PATH).mkdir(parents=True, exist_ok=True)
+            Path(file_log_dir).mkdir(parents=True, exist_ok=True)
 
             # Define log_file_path
-            log_file_path = os.path.join(LOG_FOLDER_PATH, LOG_FILE_NAME)
+            log_file_path = os.path.join(file_log_dir, LOG_FILE_NAME)
+            #print("log_file_path =", log_file_path)
 
             # Clear log file if file_log_clear is True (& log_file_path exists)
             if file_log_clear:
@@ -80,8 +82,8 @@ def log_message(
                     # clear
                     with open(log_file_path, "w"):
                         pass
-            #file_handler = logging.FileHandler(os.path.join(LOG_FOLDER_PATH, LOG_FILE_NAME))
-            file_handler = logging.FileHandler(log_file_path)
+            #file_handler = logging.FileHandler(os.path.join(file_log_dir, LOG_FILE_NAME))
+            file_handler = logging.FileHandler(log_file_path, encoding="utf-8")
             if set_formatter:
                 file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
@@ -118,6 +120,7 @@ def log_df(
             df:DataFrame,                        # pandas 
 			level:str="info",                    # log module				
 			file_log: bool = False,              # log module
+            file_log_dir: str = LOG_DIR_PATH,    # log module
 			file_log_name: str = LOG_FILE_NAME,  # log module
 			file_log_clear: bool = False,        # log module
 			console_log: bool = True,            # log module
@@ -182,6 +185,7 @@ def log_df(
     log_message(level=level, 
 	            msg_log=msg_log_df, 
 	            file_log=file_log, 
+                file_log_dir=file_log_dir,
 				file_log_name=file_log_name, 
 				file_log_clear=file_log_clear, 
 				console_log=console_log, 

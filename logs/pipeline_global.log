@@ -1,0 +1,17 @@
+2026-02-12 17:11:48,306 - [INFO] - ===============================================================================================
+2026-02-12 17:11:48,307 - [INFO] -      Pipeline global de traitement des données de consommation energetique des batiments
+2026-02-12 17:11:48,307 - [INFO] -                               script: run_pipeline_hybride.py
+2026-02-12 17:11:48,307 - [INFO] - ===============================================================================================
+2026-02-12 17:11:48,307 - [INFO] - Ressources actuellement disponibles sur la machine :
+2026-02-12 17:11:50,309 - [INFO] - RAM actuellement disponible sur la machine (free) : 16.01 GB
+2026-02-12 17:11:50,310 - [INFO] - CPU actuellement disponible sur la machine (free) : 92.0%
+2026-02-12 17:11:50,311 - [INFO] -         Approx logical cores  (free) : 18.40
+2026-02-12 17:11:50,311 - [INFO] -         Approx physical cores (free) : 11.04
+2026-02-12 17:11:50,312 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-12 17:11:50,476 - [INFO] - Docker Engine is running ...
+2026-02-12 17:11:50,477 - [INFO] - Recreation et demarrage des application 'Docker Compose' en arrière-plan ...
+2026-02-12 17:11:52,665 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-12 17:11:52,666 - [INFO] - Execution en local du script '01_exploration_spark.ipynb' ...
+2026-02-12 17:11:52,666 - [ERROR] - Pipeline arrêtée : Notebook introuvable: C:\Users\Administrateur\Desktop\ecf_energie\pipeline\01_exploration_spark.ipynb
+2026-02-12 17:11:55,391 - [INFO] - Arrêt et suppression des ressources créées par 'docker compose up'
+2026-02-12 17:11:55,391 - [INFO] - ===============================================================================================
