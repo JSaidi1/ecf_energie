@@ -1,4 +1,5 @@
 import psutil
+from pathlib import Path
 
 def get_machine_available_resources(interval=2):
     """
@@ -57,3 +58,5 @@ def get_machine_available_resources(interval=2):
         "available_logical_cores": round(available_logical, 2),
         "available_physical_cores": round(available_physical, 2),
     }
+
+

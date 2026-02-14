@@ -27,6 +27,7 @@ services:
       - ./output:/output
       - ./utils:/utils
       - ./logs:/logs
+      - ./my_tmp:/my_tmp
     networks:
       - spark-network
 
@@ -52,6 +53,7 @@ services:
       - ./output:/output
       - ./utils:/utils
       - ./logs:/logs
+      - ./my_tmp:/my_tmp
     networks:
       - spark-network
 
@@ -77,6 +79,7 @@ services:
       - ./output:/output
       - ./utils:/utils
       - ./logs:/logs
+      - ./my_tmp:/my_tmp
     networks:
       - spark-network
 
@@ -102,30 +105,9 @@ services:
       - ./output:/output
       - ./utils:/utils
       - ./logs:/logs
+      - ./my_tmp:/my_tmp
     networks:
       - spark-network
-
-  # pipeline:
-  #   image: my-spark:3.5.3
-  #   container_name: spark-pipeline
-  #   user: root # IMPORTANT (to communicate with docker)
-  #   working_dir: /
-  #   command:
-  #     - /opt/spark/bin/spark-submit
-  #     - --master
-  #     - spark://spark-master:7077
-  #     - /notebooks/run_pipeline_hybride.py
-  #   depends_on:
-  #     - spark-master
-  #   volumes:
-  #     - ./data:/data
-  #     - ./notebooks:/notebooks
-  #     - ./output:/output
-  #     - ./utils:/utils
-  #     - ./logs:/logs
-  #     - /var/run/docker.sock:/var/run/docker.sock   # IMPORTANT (to communicate with docker)
-  #   networks:
-  #     - spark-network
 
 networks:
   spark-network:

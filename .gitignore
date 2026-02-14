@@ -233,4 +233,6 @@ __marimo__/
 **/output/consommations_agregees.parquet
 ##
 **-old**
+##
+**/my_tmp/
 

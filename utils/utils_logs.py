@@ -49,9 +49,10 @@ def log_message(
         logger = logging.getLogger("app_logger")
         # --- Update logger level
         logger.setLevel(logging.DEBUG if debug_mode else logging.INFO)
-
+        
         # === REMOVE existing handlers (important!)
         logger.handlers.clear()
+
         formatter = logging.Formatter(
             "%(asctime)s - [%(levelname)s] - %(message)s"
         )
@@ -193,4 +194,70 @@ def log_df(
 				)
 	
 
+def log_table(
+        file_log: str,       # log fnc
+        file_log_dir: str,   # log fnc
+		file_log_name: str,  # log fnc
+        data: dict,          # current fnc
+        headers=None         # current fnc
+        ):
+    """
+    Create table in logs. 
+
+    data: list[dict]  -> [{"col1": "...", "col2": "..."}]
+
+    headers: list[str] (optionnel)
+    """
+    if not data:
+        return
+
+    if headers is None:
+        headers = list(data[0].keys())
+
+    # --- NEW: headers multi-lignes ---
+    header_lines = {h: str(h).split("\n") for h in headers}
+    header_height = max(len(lines) for lines in header_lines.values())
+
+    # Convertir chaque cellule en liste de lignes (split \n)
+    processed = []
+    for row in data:
+        processed.append({h: str(row.get(h, "")).split("\n") for h in headers})
+
+    # Largeur auto (basée sur la plus longue ligne) + titres
+    widths = []
+    for h in headers:
+        max_cell = max(len(line) for row in processed for line in row[h]) if processed else 0
+        max_head = max(len(line) for line in header_lines[h])
+        widths.append(max(max_cell, max_head) + 2)
+
+    def sep():
+        return "+" + "+".join("-" * w for w in widths) + "+"
+
+    # --- imprime le header sur plusieurs lignes ---
+    def log_header():
+        for i in range(header_height):
+            line = "|"
+            for h, w in zip(headers, widths):
+                lines = header_lines[h]
+                text = lines[i] if i < len(lines) else ""
+                line += f"{text:^{w}}|"
+            log_message(level="info", msg_log=line, file_log=file_log, file_log_dir=file_log_dir, file_log_name=file_log_name)
+
+    log_message(level="info", msg_log=sep(), file_log=file_log, file_log_dir=file_log_dir, file_log_name=file_log_name)
+    log_header()
+    log_message(level="info", msg_log=sep(), file_log=file_log, file_log_dir=file_log_dir, file_log_name=file_log_name)
+
+    # Affichage lignes (données)
+    for row in processed:
+        height = max(len(row[h]) for h in headers)
+
+        for i in range(height):
+            line = "|"
+            for h, w in zip(headers, widths):
+                cell_lines = row[h]
+                text = cell_lines[i] if i < len(cell_lines) else ""
+                line += f"{text:<{w}}|"
+            log_message(level="info", msg_log=line, file_log=file_log, file_log_dir=file_log_dir, file_log_name=file_log_name)
+
+        log_message(level="info", msg_log=sep(), file_log=file_log, file_log_dir=file_log_dir, file_log_name=file_log_name)
 

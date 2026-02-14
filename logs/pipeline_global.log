@@ -1,17 +1,58 @@
-2026-02-12 17:11:48,306 - [INFO] - ===============================================================================================
-2026-02-12 17:11:48,307 - [INFO] -      Pipeline global de traitement des données de consommation energetique des batiments
-2026-02-12 17:11:48,307 - [INFO] -                               script: run_pipeline_hybride.py
-2026-02-12 17:11:48,307 - [INFO] - ===============================================================================================
-2026-02-12 17:11:48,307 - [INFO] - Ressources actuellement disponibles sur la machine :
-2026-02-12 17:11:50,309 - [INFO] - RAM actuellement disponible sur la machine (free) : 16.01 GB
-2026-02-12 17:11:50,310 - [INFO] - CPU actuellement disponible sur la machine (free) : 92.0%
-2026-02-12 17:11:50,311 - [INFO] -         Approx logical cores  (free) : 18.40
-2026-02-12 17:11:50,311 - [INFO] -         Approx physical cores (free) : 11.04
-2026-02-12 17:11:50,312 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-12 17:11:50,476 - [INFO] - Docker Engine is running ...
-2026-02-12 17:11:50,477 - [INFO] - Recreation et demarrage des application 'Docker Compose' en arrière-plan ...
-2026-02-12 17:11:52,665 - [INFO] - ───────────────────────────────────────────────────────────────────────────────────────────────
-2026-02-12 17:11:52,666 - [INFO] - Execution en local du script '01_exploration_spark.ipynb' ...
-2026-02-12 17:11:52,666 - [ERROR] - Pipeline arrêtée : Notebook introuvable: C:\Users\Administrateur\Desktop\ecf_energie\pipeline\01_exploration_spark.ipynb
-2026-02-12 17:11:55,391 - [INFO] - Arrêt et suppression des ressources créées par 'docker compose up'
-2026-02-12 17:11:55,391 - [INFO] - ===============================================================================================
+2026-02-14 16:08:18,131 - [INFO] - ==============================================================================================================
+2026-02-14 16:08:18,141 - [INFO] -           Pipeline global de traitement des données de consommation energetique des batiments
+2026-02-14 16:08:18,141 - [INFO] -                                    script: run_pipeline_hybride.py
+2026-02-14 16:08:18,146 - [INFO] - ==============================================================================================================
+2026-02-14 16:08:18,453 - [INFO] - Docker Engine is running ...
+2026-02-14 16:08:18,456 - [INFO] - Recreation et demarrage des application 'Docker Compose' en arrière-plan. Merci d'attendre ...
+2026-02-14 16:08:21,738 - [INFO] - [ok]: Recreation et demarrage des application 'Docker Compose' en arrière-plan avec succès
+2026-02-14 16:08:21,743 - [INFO] - => Temps d'execution = 3.28 secondes
+2026-02-14 16:08:21,747 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-14 16:08:21,750 - [INFO] - Execution en local du script '01_exploration_spark.ipynb' ...
+2026-02-14 16:08:50,631 - [INFO] - [ok]: Execution avec succès du script '01_exploration_spark.ipynb'
+2026-02-14 16:08:50,632 - [INFO] - => Temps d'execution = 23.87 secondes
+2026-02-14 16:08:50,637 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-14 16:08:50,638 - [INFO] -     RAM (free) : 13.22 GB
+2026-02-14 16:08:50,638 - [INFO] -     CPU (free) : 91.9 %
+2026-02-14 16:08:50,642 - [INFO] -     LOGI_CORES (free) : 14.7
+2026-02-14 16:08:50,645 - [INFO] -     PHYSI_CORES (free) : 7.4
+2026-02-14 16:08:50,648 - [INFO] - 
+2026-02-14 16:08:50,650 - [INFO] - Execution sur cluster spark du script '02_nettoyage_spark.py' ...
+2026-02-14 16:09:20,604 - [INFO] - [ok]: Execution avec succès du script '02_nettoyage_spark.py'
+2026-02-14 16:09:20,608 - [INFO] - => Temps d'execution = 26.44 secondes
+2026-02-14 16:09:20,611 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-14 16:09:20,613 - [INFO] -     RAM (free) : 13.33 GB
+2026-02-14 16:09:20,615 - [INFO] -     CPU (free) : 99.8 %
+2026-02-14 16:09:20,617 - [INFO] -     LOGI_CORES (free) : 16.0
+2026-02-14 16:09:20,621 - [INFO] -     PHYSI_CORES (free) : 8.0
+2026-02-14 16:09:20,624 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-14 16:09:20,627 - [INFO] - [ok]: Pipeline terminé avec succès
+2026-02-14 16:09:22,751 - [INFO] - Arrêt et suppression des ressources (créées par 'docker compose up')
+2026-02-14 16:09:22,755 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-14 16:09:22,758 - [INFO] - Rapport global d'execution du pipeline :
+2026-02-14 16:09:22,763 - [INFO] - +----------------------------+-------------+---------------------------------------+----------+--------------------+
+2026-02-14 16:09:22,767 - [INFO] - |           Script           |     But     |               Output(s)               |   Env.   |      Metrics       |
+2026-02-14 16:09:22,769 - [INFO] - |                            |             |                                       | d'exec.  |                    |
+2026-02-14 16:09:22,775 - [INFO] - +----------------------------+-------------+---------------------------------------+----------+--------------------+
+2026-02-14 16:09:22,780 - [INFO] - |01_exploration_spark.ipynb  |Exploration  |-Rapport d'audit :                     |local     |-Temps d'exec. :    |
+2026-02-14 16:09:22,783 - [INFO] - |                            |initiale     |'/output/01_rapport_audit_donnees.md'  |          |23.87 sec           |
+2026-02-14 16:09:22,787 - [INFO] - |                            |des données  |                                       |          |                    |
+2026-02-14 16:09:22,791 - [INFO] - |                            |             |                                       |          |-Ressources         |
+2026-02-14 16:09:22,795 - [INFO] - |                            |             |                                       |          |allouées            |
+2026-02-14 16:09:22,800 - [INFO] - |                            |             |                                       |          |(free) :            |
+2026-02-14 16:09:22,805 - [INFO] - |                            |             |                                       |          |RAM: 13.22 GB       |
+2026-02-14 16:09:22,809 - [INFO] - |                            |             |                                       |          |CPU: 91.9%          |
+2026-02-14 16:09:22,814 - [INFO] - |                            |             |                                       |          | phys. cores: 7.4   |
+2026-02-14 16:09:22,818 - [INFO] - |                            |             |                                       |          | logi. cores: 14.7  |
+2026-02-14 16:09:22,823 - [INFO] - +----------------------------+-------------+---------------------------------------+----------+--------------------+
+2026-02-14 16:09:22,829 - [INFO] - |02_nettoyage_spark.py       |Nettoyage    |-Parquet dans :                        |cluster   |-Temps d'exec. :    |
+2026-02-14 16:09:22,833 - [INFO] - |                            |des données  |'/output/02_consommations_clean/'      |spark     |26.44 sec           |
+2026-02-14 16:09:22,838 - [INFO] - |                            |             |                                       |(docker)  |                    |
+2026-02-14 16:09:22,841 - [INFO] - |                            |             |-Log de traitement :                   |          |-Ressources         |
+2026-02-14 16:09:22,844 - [INFO] - |                            |             |'/logs/02_logs_nettoyage.log'          |          |allouées            |
+2026-02-14 16:09:22,847 - [INFO] - |                            |             |                                       |          |(free) :            |
+2026-02-14 16:09:22,850 - [INFO] - |                            |             |                                       |          |RAM: 13.33 GB       |
+2026-02-14 16:09:22,854 - [INFO] - |                            |             |                                       |          |CPU: 99.8%          |
+2026-02-14 16:09:22,857 - [INFO] - |                            |             |                                       |          | phys. cores: 8.0   |
+2026-02-14 16:09:22,860 - [INFO] - |                            |             |                                       |          | logi. cores: 16.0  |
+2026-02-14 16:09:22,865 - [INFO] - +----------------------------+-------------+---------------------------------------+----------+--------------------+
+2026-02-14 16:09:22,869 - [INFO] - ==============================================================================================================
