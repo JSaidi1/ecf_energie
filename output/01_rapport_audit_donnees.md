@@ -15,6 +15,6 @@
 *Rapport genere automatiquement - Audit de qualite des donnees de consommation énergetique des batiments*  
 *Données brutes : consommations_raw.csv*  
 *Script de traitement : 01_exploration_spark.ipynb*  
-*Temps de traitement : 23.87 secondes*  
-*Ressources machine approximatives allouées à ce traitement : (RAM : 13.22 GB, CPU : 91.90% - Approx logical cores free(14.70) - Approx physical cores free : 7.35)*  
-*Date : 14/02/2026 16:08:49 (FR)* 
+*Temps de traitement : 27.72 secondes*  
+*Ressources machine approximatives allouées à ce traitement : (RAM : 14.05 GB, CPU : 87.70% - Approx logical cores free(14.03) - Approx physical cores free : 7.02)*  
+*Date : 14/02/2026 21:50:10 (FR)* 

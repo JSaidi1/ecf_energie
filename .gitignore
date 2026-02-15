@@ -229,10 +229,11 @@ __marimo__/
 **/data/data_ecf
 **/docs/ecf_subject/
 **/notebooks-to-del/
-**/output/meteo_clean.csv
-**/output/consommations_agregees.parquet
+**/output
 ##
 **-old**
 ##
 **/my_tmp/
+##
+
 

@@ -7,6 +7,10 @@
 #====================================================================================================
 #                             Etape 1.2 - Pipeline de nettoyage Spark
 #                  Objectif: Traiter des donnees structurees avec un langage de programmation
+# Livrables :
+#- Ce script 02_nettoyage_spark.py
+#- Parquet dans output/02_consommations_clean/
+#- Log de traitement (lignes en entree/sortie, lignes supprimees)
 #====================================================================================================
 import os
 import sys
@@ -458,10 +462,10 @@ def main():
         log_message(msg_log="Ecriture en parquet ...", file_log=True, file_log_dir=LOG_DIR, file_log_name=LOG_FILE_NAME)
 
         start_time_parquet = time.time()
-        # df_horaire.write \
-        #         .mode("overwrite") \
-        #         .partitionBy("date", "type_energie") \
-        #         .parquet(PARQUET_CONSO_CLEAN_PATH)
+        df_horaire.write \
+                .mode("overwrite") \
+                .partitionBy("date", "type_energie") \
+                .parquet(PARQUET_CONSO_CLEAN_PATH)
         
         temps_enregistrement_parquet = time.time() - start_time_parquet
         log_message(msg_log="Ecriture en parquet terminée avec succès", file_log=True, file_log_dir=LOG_DIR, file_log_name=LOG_FILE_NAME)
@@ -500,11 +504,11 @@ def main():
 
         log_message(msg_log="", file_log=True, file_log_dir=LOG_DIR, file_log_name=LOG_FILE_NAME)
         log_message(msg_log=f"Ecrire des données du temps d'execution + ressources dans le fichier {TMP_FILE_PATH.name}", file_log=True, file_log_dir=LOG_DIR, file_log_name=LOG_FILE_NAME)
-        # Ecrire des données du temps d'execution + ressources dans le fichier TMP_FILE_PATH
-
-        temps_resources = f"""
-        Date : {datetime.now().strftime("%d/%m/%Y %H:%M:%S")} (FR)
         
+        # Ecrire des données du temps d'execution + ressources dans le fichier TMP_FILE_PATH
+        temps_resources = f"""
+        Date : {datetime.now().strftime("%d/%m/%Y %H:%M:%S")} (FR + 1h)
+
         temps_exec_sec={temps_execution_02:.2f}
         ram_gb={ram_gb_02:.2f}
         cpu_pct={cpu_pct_02:.2f}
