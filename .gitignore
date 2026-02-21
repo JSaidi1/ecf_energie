@@ -221,9 +221,12 @@ __marimo__/
 
 ## fichiers / dossiers lourds ...
 **/data
-**/output
-**/logs
+output/*
 **/my_tmp/
+
+## exceptions
+!output/rapport_synthese.md
+
 ##
 **-old**
 
