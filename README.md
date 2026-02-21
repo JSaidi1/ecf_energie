@@ -121,7 +121,7 @@ L’objectif est de construire un pipeline complet d’**ingestion**, **nettoyag
 ### Installation
 
 #### Docker
-        docker compose up --d --build
+        docker compose up -d --build
 
 #### Environement
         python -m venv .venv
