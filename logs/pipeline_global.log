@@ -1,0 +1,327 @@
+2026-02-21 09:52:51,529 - [INFO] - ==============================================================================================================
+2026-02-21 09:52:51,532 - [INFO] -           Pipeline global de traitement des données de consommation energetique des batiments
+2026-02-21 09:52:51,535 - [INFO] -                                    script: run_pipeline_hybride.py
+2026-02-21 09:52:51,535 - [INFO] - ==============================================================================================================
+2026-02-21 09:52:51,848 - [INFO] - Docker Engine is running ...
+2026-02-21 09:52:51,851 - [INFO] - Recreation et demarrage des application 'Docker Compose' en arrière-plan. Merci d'attendre ...
+2026-02-21 09:52:51,855 - [INFO] -   Exec. cmd '['docker', 'compose', 'up', '-d', '--build']' ...
+2026-02-21 09:52:55,308 - [INFO] -   Succes Exec. cmd '['docker', 'compose', 'up', '-d', '--build']'
+2026-02-21 09:52:55,311 - [INFO] - Recreation et demarrage des application 'Docker Compose' en arrière-plan avec succès
+2026-02-21 09:52:55,314 - [INFO] - => Temps d'execution = 3.46 secondes
+2026-02-21 09:52:55,318 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-21 09:52:55,322 - [INFO] - Execution en local du script '01_exploration_spark.ipynb' ...
+2026-02-21 09:52:55,325 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\01_exploration_spark.ipynb']' ...
+2026-02-21 09:54:01,657 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\01_exploration_spark.ipynb']'
+2026-02-21 09:54:01,659 - [INFO] - Execution avec succès du script '01_exploration_spark.ipynb'
+2026-02-21 09:54:01,663 - [INFO] - => Temps d'execution = 60.55 secondes
+2026-02-21 09:54:01,666 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 09:54:01,669 - [INFO] -     RAM (free) : 13.68 GB
+2026-02-21 09:54:01,672 - [INFO] -     CPU (free) : 89.4 %
+2026-02-21 09:54:01,674 - [INFO] -     LOGI_CORES (free) : 14.3
+2026-02-21 09:54:01,678 - [INFO] -     PHYSI_CORES (free) : 7.2
+2026-02-21 09:54:01,682 - [INFO] - 
+2026-02-21 09:54:01,685 - [INFO] - Execution sur cluster spark du script '02_nettoyage_spark.py' ...
+2026-02-21 09:54:01,689 - [INFO] -   Exec. cmd '['docker', 'inspect', 'spark-master']' ...
+2026-02-21 09:54:01,760 - [INFO] -   Succes Exec. cmd '['docker', 'inspect', 'spark-master']'
+2026-02-21 09:54:01,764 - [INFO] -   Exec. cmd '['docker', 'exec', 'spark-master', '/opt/spark/bin/spark-submit', '--master', 'spark://spark-master:7077', '/notebooks/02_nettoyage_spark.py']' ...
+2026-02-21 10:42:45,569 - [INFO] -   Succes Exec. cmd '['docker', 'exec', 'spark-master', '/opt/spark/bin/spark-submit', '--master', 'spark://spark-master:7077', '/notebooks/02_nettoyage_spark.py']'
+2026-02-21 10:42:45,573 - [INFO] - Execution avec succès du script '02_nettoyage_spark.py'
+2026-02-21 10:42:45,577 - [INFO] - => Temps d'execution = 2921.06 secondes
+2026-02-21 10:42:45,580 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:42:45,584 - [INFO] -     RAM (free) : 13.49 GB
+2026-02-21 10:42:45,588 - [INFO] -     CPU (free) : 99.3 %
+2026-02-21 10:42:45,592 - [INFO] -     LOGI_CORES (free) : 15.9
+2026-02-21 10:42:45,597 - [INFO] -     PHYSI_CORES (free) : 7.9
+2026-02-21 10:42:45,602 - [INFO] - 
+2026-02-21 10:42:45,606 - [INFO] - Execution en local du script '03_agregations_spark.ipynb' ...
+2026-02-21 10:42:45,610 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\03_agregations_spark.ipynb']' ...
+2026-02-21 10:45:19,988 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\03_agregations_spark.ipynb']'
+2026-02-21 10:45:19,991 - [INFO] - Execution avec succès du script '03_agregations_spark.ipynb'
+2026-02-21 10:45:19,996 - [INFO] - => Temps d'execution = 149.40 secondes
+2026-02-21 10:45:19,999 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:45:20,003 - [INFO] -     RAM (free) : 8.16 GB
+2026-02-21 10:45:20,007 - [INFO] -     CPU (free) : 81.2 %
+2026-02-21 10:45:20,011 - [INFO] -     LOGI_CORES (free) : 13.0
+2026-02-21 10:45:20,015 - [INFO] -     PHYSI_CORES (free) : 6.5
+2026-02-21 10:45:20,018 - [INFO] - 
+2026-02-21 10:45:20,022 - [INFO] - Execution en local du script '04_nettoyage_meteo_pandas.ipynb' ...
+2026-02-21 10:45:20,026 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\04_nettoyage_meteo_pandas.ipynb']' ...
+2026-02-21 10:45:33,279 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\04_nettoyage_meteo_pandas.ipynb']'
+2026-02-21 10:45:33,279 - [INFO] - Execution avec succès du script '04_nettoyage_meteo_pandas.ipynb'
+2026-02-21 10:45:33,289 - [INFO] - => Temps d'execution = 9.37 secondes
+2026-02-21 10:45:33,291 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:45:33,291 - [INFO] -     RAM (free) : 13.15 GB
+2026-02-21 10:45:33,291 - [INFO] -     CPU (free) : 89.3 %
+2026-02-21 10:45:33,300 - [INFO] -     LOGI_CORES (free) : 14.3
+2026-02-21 10:45:33,303 - [INFO] -     PHYSI_CORES (free) : 7.1
+2026-02-21 10:45:33,308 - [INFO] - 
+2026-02-21 10:45:33,314 - [INFO] - Execution en local du script '05_fusion_enrichissement.ipynb' ...
+2026-02-21 10:45:33,315 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\05_fusion_enrichissement.ipynb']' ...
+2026-02-21 10:49:03,012 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\05_fusion_enrichissement.ipynb']'
+2026-02-21 10:49:03,022 - [INFO] - Execution avec succès du script '05_fusion_enrichissement.ipynb'
+2026-02-21 10:49:03,028 - [INFO] - => Temps d'execution = 205.75 secondes
+2026-02-21 10:49:03,034 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:49:03,039 - [INFO] -     RAM (free) : 13.16 GB
+2026-02-21 10:49:03,046 - [INFO] -     CPU (free) : 87.3 %
+2026-02-21 10:49:03,052 - [INFO] -     LOGI_CORES (free) : 14.0
+2026-02-21 10:49:03,058 - [INFO] -     PHYSI_CORES (free) : 7.0
+2026-02-21 10:49:03,064 - [INFO] - 
+2026-02-21 10:49:03,070 - [INFO] - Execution en local du script '06_statistiques_descriptives.ipynb' ...
+2026-02-21 10:49:03,076 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\06_statistiques_descriptives.ipynb']' ...
+2026-02-21 10:49:31,758 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\06_statistiques_descriptives.ipynb']'
+2026-02-21 10:49:31,758 - [INFO] - Execution avec succès du script '06_statistiques_descriptives.ipynb'
+2026-02-21 10:49:31,758 - [INFO] - => Temps d'execution = 24.39 secondes
+2026-02-21 10:49:31,772 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:49:31,777 - [INFO] -     RAM (free) : 14.69 GB
+2026-02-21 10:49:31,781 - [INFO] -     CPU (free) : 85.5 %
+2026-02-21 10:49:31,785 - [INFO] -     LOGI_CORES (free) : 13.7
+2026-02-21 10:49:31,790 - [INFO] -     PHYSI_CORES (free) : 6.8
+2026-02-21 10:49:31,793 - [INFO] - 
+2026-02-21 10:49:31,797 - [INFO] - Execution en local du script '07_analyse_correlations.ipynb' ...
+2026-02-21 10:49:31,799 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\07_analyse_correlations.ipynb']' ...
+2026-02-21 10:50:03,100 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\07_analyse_correlations.ipynb']'
+2026-02-21 10:50:03,110 - [INFO] - Execution avec succès du script '07_analyse_correlations.ipynb'
+2026-02-21 10:50:03,112 - [INFO] - => Temps d'execution = 27.35 secondes
+2026-02-21 10:50:03,120 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:50:03,124 - [INFO] -     RAM (free) : 14.99 GB
+2026-02-21 10:50:03,128 - [INFO] -     CPU (free) : 92.6 %
+2026-02-21 10:50:03,133 - [INFO] -     LOGI_CORES (free) : 14.8
+2026-02-21 10:50:03,136 - [INFO] -     PHYSI_CORES (free) : 7.4
+2026-02-21 10:50:03,142 - [INFO] - 
+2026-02-21 10:50:03,148 - [INFO] - Execution en local du script '08_detection_anomalies.ipynb' ...
+2026-02-21 10:50:03,154 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\08_detection_anomalies.ipynb']' ...
+2026-02-21 10:50:39,410 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\08_detection_anomalies.ipynb']'
+2026-02-21 10:50:39,410 - [INFO] - Execution avec succès du script '08_detection_anomalies.ipynb'
+2026-02-21 10:50:39,418 - [INFO] - => Temps d'execution = 29.90 secondes
+2026-02-21 10:50:39,422 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:50:39,425 - [INFO] -     RAM (free) : 15.06 GB
+2026-02-21 10:50:39,430 - [INFO] -     CPU (free) : 91.2 %
+2026-02-21 10:50:39,432 - [INFO] -     LOGI_CORES (free) : 14.6
+2026-02-21 10:50:39,439 - [INFO] -     PHYSI_CORES (free) : 7.3
+2026-02-21 10:50:39,442 - [INFO] - 
+2026-02-21 10:50:39,444 - [INFO] - Execution en local du script '09_visualisations_matplotlib.ipynb' ...
+2026-02-21 10:50:39,451 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\09_visualisations_matplotlib.ipynb']' ...
+2026-02-21 10:51:35,227 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\09_visualisations_matplotlib.ipynb']'
+2026-02-21 10:51:35,227 - [INFO] - Execution avec succès du script '09_visualisations_matplotlib.ipynb'
+2026-02-21 10:51:35,232 - [INFO] - => Temps d'execution = 51.33 secondes
+2026-02-21 10:51:35,239 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:51:35,243 - [INFO] -     RAM (free) : 15.07 GB
+2026-02-21 10:51:35,246 - [INFO] -     CPU (free) : 91.2 %
+2026-02-21 10:51:35,256 - [INFO] -     LOGI_CORES (free) : 14.6
+2026-02-21 10:51:35,276 - [INFO] -     PHYSI_CORES (free) : 7.3
+2026-02-21 10:51:35,280 - [INFO] - 
+2026-02-21 10:51:35,285 - [INFO] - Execution en local du script '10_visualisations_seaborn.ipynb' ...
+2026-02-21 10:51:35,289 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\10_visualisations_seaborn.ipynb']' ...
+2026-02-21 10:58:57,854 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\10_visualisations_seaborn.ipynb']'
+2026-02-21 10:58:57,859 - [INFO] - Execution avec succès du script '10_visualisations_seaborn.ipynb'
+2026-02-21 10:58:57,859 - [INFO] - => Temps d'execution = 437.71 secondes
+2026-02-21 10:58:57,870 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:58:57,870 - [INFO] -     RAM (free) : 14.96 GB
+2026-02-21 10:58:57,878 - [INFO] -     CPU (free) : 82.5 %
+2026-02-21 10:58:57,880 - [INFO] -     LOGI_CORES (free) : 13.2
+2026-02-21 10:58:57,885 - [INFO] -     PHYSI_CORES (free) : 6.6
+2026-02-21 10:58:57,890 - [INFO] - 
+2026-02-21 10:58:57,890 - [INFO] - Execution en local du script '11_dashboard_executif.ipynb' ...
+2026-02-21 10:58:57,901 - [INFO] -   Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\11_dashboard_executif.ipynb']' ...
+2026-02-21 10:59:34,713 - [INFO] -   Succes Exec. cmd '['C:\\Users\\joel\\Downloads\\ecf_energie\\.venv\\Scripts\\python.exe', '-m', 'jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--inplace', 'C:\\Users\\joel\\Downloads\\ecf_energie\\notebooks\\11_dashboard_executif.ipynb']'
+2026-02-21 10:59:34,713 - [INFO] - Execution avec succès du script '11_dashboard_executif.ipynb'
+2026-02-21 10:59:34,713 - [INFO] - => Temps d'execution = 32.28 secondes
+2026-02-21 10:59:34,724 - [INFO] - => Ressources approximatives allouées à l'execution de ce script :
+2026-02-21 10:59:34,728 - [INFO] -     RAM (free) : 14.02 GB
+2026-02-21 10:59:34,730 - [INFO] -     CPU (free) : 95.3 %
+2026-02-21 10:59:34,734 - [INFO] -     LOGI_CORES (free) : 15.2
+2026-02-21 10:59:34,738 - [INFO] -     PHYSI_CORES (free) : 7.6
+2026-02-21 10:59:34,738 - [INFO] - 
+2026-02-21 10:59:34,744 - [INFO] - Temps total d'execution du pipeline : 3949.09 secondes
+2026-02-21 10:59:34,745 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-21 10:59:34,745 - [INFO] - Pipeline terminé avec succès
+2026-02-21 10:59:34,752 - [INFO] -   Exec. cmd '['docker', 'compose', 'down']' ...
+2026-02-21 10:59:36,718 - [INFO] -   Succes Exec. cmd '['docker', 'compose', 'down']'
+2026-02-21 10:59:36,725 - [INFO] - Arrêt et suppression des ressources (créées par 'docker compose up')
+2026-02-21 10:59:36,729 - [INFO] - ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2026-02-21 10:59:36,733 - [INFO] - Rapport global d'execution du pipeline :
+2026-02-21 10:59:36,736 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,739 - [INFO] - |               Script               |        But         |                  Output(s)                   |        Env.        |
+2026-02-21 10:59:36,739 - [INFO] - |                                    |                    |                                              |      d'exec.       |
+2026-02-21 10:59:36,745 - [INFO] - |                                    |                    |                                              |         &          |
+2026-02-21 10:59:36,745 - [INFO] - |                                    |                    |                                              |      Metrics       |
+2026-02-21 10:59:36,754 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,756 - [INFO] - |01_exploration_spark.ipynb          |Exploration         |-Rapport d'audit :                            |-Env.               |
+2026-02-21 10:59:36,756 - [INFO] - |                                    |initiale            |'/output/01_rapport_audit_donnees.md'         |d'exec. :           |
+2026-02-21 10:59:36,756 - [INFO] - |                                    |des données         |                                              |Local               |
+2026-02-21 10:59:36,768 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,771 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:36,774 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:36,776 - [INFO] - |                                    |                    |                                              |60.55 sec           |
+2026-02-21 10:59:36,776 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,787 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:36,787 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:36,797 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:36,801 - [INFO] - |                                    |                    |                                              |RAM: 13.68 GB       |
+2026-02-21 10:59:36,808 - [INFO] - |                                    |                    |                                              |CPU: 89.4%          |
+2026-02-21 10:59:36,808 - [INFO] - |                                    |                    |                                              | phys. cores: 7.2   |
+2026-02-21 10:59:36,816 - [INFO] - |                                    |                    |                                              | logi. cores: 14.3  |
+2026-02-21 10:59:36,818 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,821 - [INFO] - |02_nettoyage_spark.py               |Nettoyage           |-Parquet dans :                               |-Env.               |
+2026-02-21 10:59:36,824 - [INFO] - |                                    |des données         |'/output/02_consommations_clean/'             |d'exec. :           |
+2026-02-21 10:59:36,824 - [INFO] - |                                    |de consommation     |                                              |Cluster             |
+2026-02-21 10:59:36,828 - [INFO] - |                                    |énergetique         |-Log de traitement :                          |spark               |
+2026-02-21 10:59:36,832 - [INFO] - |                                    |                    |'/logs/02_logs_nettoyage.log'                 |(docker)            |
+2026-02-21 10:59:36,832 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,839 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:36,839 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:36,839 - [INFO] - |                                    |                    |                                              |2921.06 sec         |
+2026-02-21 10:59:36,848 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,849 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:36,854 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:36,854 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:36,859 - [INFO] - |                                    |                    |                                              |RAM: 13.49 GB       |
+2026-02-21 10:59:36,864 - [INFO] - |                                    |                    |                                              |CPU: 99.3%          |
+2026-02-21 10:59:36,864 - [INFO] - |                                    |                    |                                              | phys. cores: 7.9   |
+2026-02-21 10:59:36,872 - [INFO] - |                                    |                    |                                              | logi. cores: 15.9  |
+2026-02-21 10:59:36,876 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,879 - [INFO] - |03_agregations_spark.ipynb          |Agregations         |-Table agregee :                              |-Env.               |
+2026-02-21 10:59:36,883 - [INFO] - |                                    |des données         |'/output/03_consommations_agregees.parquet'   |d'exec. :           |
+2026-02-21 10:59:36,884 - [INFO] - |                                    |                    |                                              |Local               |
+2026-02-21 10:59:36,884 - [INFO] - |                                    |                    |-Requete Spark SQL                            |                    |
+2026-02-21 10:59:36,890 - [INFO] - |                                    |                    |demonstrant l'utilisation                     |-Metrics :          |
+2026-02-21 10:59:36,896 - [INFO] - |                                    |                    |de la vue (voir                               |Temps d'exec. :     |
+2026-02-21 10:59:36,898 - [INFO] - |                                    |                    |03_agregations_spark.ipynb)                   |149.4 sec           |
+2026-02-21 10:59:36,901 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,905 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:36,908 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:36,912 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:36,912 - [INFO] - |                                    |                    |                                              |RAM: 8.16 GB        |
+2026-02-21 10:59:36,912 - [INFO] - |                                    |                    |                                              |CPU: 81.2%          |
+2026-02-21 10:59:36,922 - [INFO] - |                                    |                    |                                              | phys. cores: 6.5   |
+2026-02-21 10:59:36,926 - [INFO] - |                                    |                    |                                              | logi. cores: 13.0  |
+2026-02-21 10:59:36,929 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,932 - [INFO] - |04_nettoyage_meteo_pandas.ipynb     |Nettoyage           |-Dataset nettoye :                            |-Env.               |
+2026-02-21 10:59:36,932 - [INFO] - |                                    |des donnees meteos  |'/output/04_meteo_clean.csv'                  |d'exec. :           |
+2026-02-21 10:59:36,932 - [INFO] - |                                    |avec Pandas         |                                              |Local               |
+2026-02-21 10:59:36,932 - [INFO] - |                                    |                    |-Rapport avant/apres                          |                    |
+2026-02-21 10:59:36,944 - [INFO] - |                                    |                    |nettoyage (voir                               |-Metrics :          |
+2026-02-21 10:59:36,948 - [INFO] - |                                    |                    |04_nettoyage_meteo_pandas.ipynb)              |Temps d'exec. :     |
+2026-02-21 10:59:36,948 - [INFO] - |                                    |                    |                                              |9.37 sec            |
+2026-02-21 10:59:36,954 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:36,960 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:36,963 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:36,963 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:36,963 - [INFO] - |                                    |                    |                                              |RAM: 13.15 GB       |
+2026-02-21 10:59:36,963 - [INFO] - |                                    |                    |                                              |CPU: 89.3%          |
+2026-02-21 10:59:36,975 - [INFO] - |                                    |                    |                                              | phys. cores: 7.1   |
+2026-02-21 10:59:36,976 - [INFO] - |                                    |                    |                                              | logi. cores: 14.3  |
+2026-02-21 10:59:36,976 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:36,984 - [INFO] - |05_fusion_enrichissement.ipynb      |Fusion et           |-Dataset final :                              |-Env.               |
+2026-02-21 10:59:36,984 - [INFO] - |                                    |enrichissement      |'/output/05_consommations_enrichies.csv'      |d'exec. :           |
+2026-02-21 10:59:36,984 - [INFO] - |                                    |                    |                                              |Local               |
+2026-02-21 10:59:36,991 - [INFO] - |                                    |                    |-Dataset final :                              |                    |
+2026-02-21 10:59:36,994 - [INFO] - |                                    |                    |'/output/05_consommations_enrichies.parquet'  |-Metrics :          |
+2026-02-21 10:59:36,996 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:36,996 - [INFO] - |                                    |                    |Dictionnaire de donnees :                     |205.75 sec          |
+2026-02-21 10:59:36,996 - [INFO] - |                                    |                    |(voir 05_fusion_enrichissement.ipynb)         |                    |
+2026-02-21 10:59:37,004 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,007 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,011 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,015 - [INFO] - |                                    |                    |                                              |RAM: 13.16 GB       |
+2026-02-21 10:59:37,015 - [INFO] - |                                    |                    |                                              |CPU: 87.3%          |
+2026-02-21 10:59:37,015 - [INFO] - |                                    |                    |                                              | phys. cores: 7.0   |
+2026-02-21 10:59:37,023 - [INFO] - |                                    |                    |                                              | logi. cores: 14.0  |
+2026-02-21 10:59:37,025 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,035 - [INFO] - |06_statistiques_descriptives.ipynb  |Statistiques        |-Tabs de synthèse :                           |-Env.               |
+2026-02-21 10:59:37,040 - [INFO] - |                                    |descriptives        |'/output/06_exports'                          |d'exec. :           |
+2026-02-21 10:59:37,046 - [INFO] - |                                    |                    |                                              |Local               |
+2026-02-21 10:59:37,046 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,056 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:37,056 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:37,067 - [INFO] - |                                    |                    |                                              |24.39 sec           |
+2026-02-21 10:59:37,067 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,072 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,075 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,077 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,077 - [INFO] - |                                    |                    |                                              |RAM: 14.69 GB       |
+2026-02-21 10:59:37,088 - [INFO] - |                                    |                    |                                              |CPU: 85.5%          |
+2026-02-21 10:59:37,088 - [INFO] - |                                    |                    |                                              | phys. cores: 6.8   |
+2026-02-21 10:59:37,098 - [INFO] - |                                    |                    |                                              | logi. cores: 13.7  |
+2026-02-21 10:59:37,103 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,103 - [INFO] - |07_analyse_correlations.ipynb       |Analyse             |-Matrice de correlation :                     |-Env.               |
+2026-02-21 10:59:37,109 - [INFO] - |                                    |des correlations    |'/output/07_matrice_correlation.csv'          |d'exec. :           |
+2026-02-21 10:59:37,109 - [INFO] - |                                    |                    |                                              |Local               |
+2026-02-21 10:59:37,118 - [INFO] - |                                    |                    |-Synthese des insights :                      |                    |
+2026-02-21 10:59:37,120 - [INFO] - |                                    |                    |'output/07_rapport_insight.md'                |-Metrics :          |
+2026-02-21 10:59:37,120 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:37,129 - [INFO] - |                                    |                    |                                              |27.35 sec           |
+2026-02-21 10:59:37,135 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,140 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,140 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,140 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,151 - [INFO] - |                                    |                    |                                              |RAM: 14.99 GB       |
+2026-02-21 10:59:37,154 - [INFO] - |                                    |                    |                                              |CPU: 92.6%          |
+2026-02-21 10:59:37,161 - [INFO] - |                                    |                    |                                              | phys. cores: 7.4   |
+2026-02-21 10:59:37,167 - [INFO] - |                                    |                    |                                              | logi. cores: 14.8  |
+2026-02-21 10:59:37,171 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,171 - [INFO] - |08_detection_anomalies.ipynb        |Detection           |-Liste des anomalies :                        |-Env.               |
+2026-02-21 10:59:37,171 - [INFO] - |                                    |d'anomalies         |'/output/08_anomalies_detectees.csv'          |d'exec. :           |
+2026-02-21 10:59:37,181 - [INFO] - |                                    |                    |                                              |Local               |
+2026-02-21 10:59:37,183 - [INFO] - |                                    |                    |-Rapport de                                   |                    |
+2026-02-21 10:59:37,187 - [INFO] - |                                    |                    |recommandations d'audit :                     |-Metrics :          |
+2026-02-21 10:59:37,191 - [INFO] - |                                    |                    |'output/08_rapport_audit.md'                  |Temps d'exec. :     |
+2026-02-21 10:59:37,196 - [INFO] - |                                    |                    |                                              |29.9 sec            |
+2026-02-21 10:59:37,199 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,201 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,205 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,205 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,212 - [INFO] - |                                    |                    |                                              |RAM: 15.06 GB       |
+2026-02-21 10:59:37,214 - [INFO] - |                                    |                    |                                              |CPU: 91.2%          |
+2026-02-21 10:59:37,214 - [INFO] - |                                    |                    |                                              | phys. cores: 7.3   |
+2026-02-21 10:59:37,222 - [INFO] - |                                    |                    |                                              | logi. cores: 14.6  |
+2026-02-21 10:59:37,222 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,231 - [INFO] - |09_visualisations_matplotlib.ipynb  |Graphiques          |-5 figures PNG                                |-Env.               |
+2026-02-21 10:59:37,232 - [INFO] - |                                    |Matplotlib          |(300 dpi) dans :                              |d'exec. :           |
+2026-02-21 10:59:37,241 - [INFO] - |                                    |                    |'/output/09_figures'                          |Local               |
+2026-02-21 10:59:37,242 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,247 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:37,253 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:37,254 - [INFO] - |                                    |                    |                                              |51.33 sec           |
+2026-02-21 10:59:37,254 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,264 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,264 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,264 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,274 - [INFO] - |                                    |                    |                                              |RAM: 15.07 GB       |
+2026-02-21 10:59:37,279 - [INFO] - |                                    |                    |                                              |CPU: 91.2%          |
+2026-02-21 10:59:37,279 - [INFO] - |                                    |                    |                                              | phys. cores: 7.3   |
+2026-02-21 10:59:37,285 - [INFO] - |                                    |                    |                                              | logi. cores: 14.6  |
+2026-02-21 10:59:37,285 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,295 - [INFO] - |10_visualisations_seaborn.ipynb     |Visualisations      |-6 figures PNG                                |-Env.               |
+2026-02-21 10:59:37,295 - [INFO] - |                                    |Seaborn             |(300 dpi) dans :                              |d'exec. :           |
+2026-02-21 10:59:37,295 - [INFO] - |                                    |                    |'/output/10_figures'                          |Local               |
+2026-02-21 10:59:37,305 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,305 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:37,311 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:37,315 - [INFO] - |                                    |                    |                                              |437.71 sec          |
+2026-02-21 10:59:37,315 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,315 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,315 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,326 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,336 - [INFO] - |                                    |                    |                                              |RAM: 14.96 GB       |
+2026-02-21 10:59:37,342 - [INFO] - |                                    |                    |                                              |CPU: 82.5%          |
+2026-02-21 10:59:37,346 - [INFO] - |                                    |                    |                                              | phys. cores: 6.6   |
+2026-02-21 10:59:37,358 - [INFO] - |                                    |                    |                                              | logi. cores: 13.2  |
+2026-02-21 10:59:37,358 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,367 - [INFO] - |11_dashboard_executif.ipynb         |Création            |-Figure dashboard :                           |-Env.               |
+2026-02-21 10:59:37,374 - [INFO] - |                                    |d'un Dashboard      |'/11_figures/dashboard_energie.png'           |d'exec. :           |
+2026-02-21 10:59:37,378 - [INFO] - |                                    |executif            |                                              |Local               |
+2026-02-21 10:59:37,378 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,378 - [INFO] - |                                    |                    |                                              |-Metrics :          |
+2026-02-21 10:59:37,389 - [INFO] - |                                    |                    |                                              |Temps d'exec. :     |
+2026-02-21 10:59:37,389 - [INFO] - |                                    |                    |                                              |32.28 sec           |
+2026-02-21 10:59:37,389 - [INFO] - |                                    |                    |                                              |                    |
+2026-02-21 10:59:37,399 - [INFO] - |                                    |                    |                                              |Ressources          |
+2026-02-21 10:59:37,405 - [INFO] - |                                    |                    |                                              |allouées            |
+2026-02-21 10:59:37,409 - [INFO] - |                                    |                    |                                              |(free) :            |
+2026-02-21 10:59:37,420 - [INFO] - |                                    |                    |                                              |RAM: 14.02 GB       |
+2026-02-21 10:59:37,422 - [INFO] - |                                    |                    |                                              |CPU: 95.3%          |
+2026-02-21 10:59:37,430 - [INFO] - |                                    |                    |                                              | phys. cores: 7.6   |
+2026-02-21 10:59:37,440 - [INFO] - |                                    |                    |                                              | logi. cores: 15.2  |
+2026-02-21 10:59:37,440 - [INFO] - +------------------------------------+--------------------+----------------------------------------------+--------------------+
+2026-02-21 10:59:37,452 - [INFO] - ==============================================================================================================
