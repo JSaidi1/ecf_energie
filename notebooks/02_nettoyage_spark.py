@@ -33,8 +33,8 @@ from pyspark.sql.types import DoubleType, TimestampType
 #-------------------------------------------------------------------------------
 # ───────────── INPUTS ─────────────
 IN_DIR = "/data"
-IN_CONSO_RAW_CSV = os.path.join(IN_DIR, "consommations_raw-test.csv")
-# IN_CONSO_RAW_CSV = os.path.join(IN_DIR, "consommations_raw.csv")
+# IN_CONSO_RAW_CSV = os.path.join(IN_DIR, "consommations_raw-test.csv")
+IN_CONSO_RAW_CSV = os.path.join(IN_DIR, "consommations_raw.csv")
 IN_BAT_CSV = os.path.join(IN_DIR, "batiments.csv")
 
 # ───────────── OUTPUTS ────────────
